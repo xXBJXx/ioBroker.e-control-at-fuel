@@ -18,6 +18,7 @@
 ### Fuel prices for Austria
 
 # Beta Release
+[forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
 ## Der Adapter liest die Spritpreise von E-Control.at aus:
 

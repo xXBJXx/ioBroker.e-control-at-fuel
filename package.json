@@ -9,14 +9,25 @@
   "homepage": "https://github.com/xXBJXx/ioBroker.e-control-at-fuel",
   "license": "MIT",
   "keywords": [
-    "Austria"
+    "Austria",
+    "Fuel prices",
+    "Spritpreise",
+    "Österreich",
+    "Sprit",
+    "fuel",
+    "gas",
+    "Spritpreis",
+    "Tankstelle",
+    "Diesel",
+    "Benzin"
   ],
   "repository": {
     "type": "git",
     "url": "https://github.com/xXBJXx/ioBroker.e-control-at-fuel"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^2.4.0"
+    "@iobroker/adapter-core": "^2.4.0",
+    "axios": "^0.19.2"
   },
   "devDependencies": {
     "@iobroker/testing": "^2.2.0",

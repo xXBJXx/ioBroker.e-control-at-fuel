@@ -19,33 +19,44 @@
 		"title": "E-Control.at fuel",
 		"titleLang": {
 			"en": "E-Control.at fuel",
-			"de": "E-Control.at fuel",
-			"ru": "E-Control.at fuel",
-			"pt": "E-Control.at fuel",
-			"nl": "E-Control.at fuel",
+			"de": "E-Control.at Kraftstoff",
+			"ru": "E-Control.at топливо",
+			"pt": "E-Control.at combustível",
+			"nl": "E-Control. Op brandstof",
 			"fr": "E-Control.at fuel",
 			"it": "E-Control.at fuel",
-			"es": "E-Control.at fuel",
-			"pl": "E-Control.at fuel",
-			"zh-cn": "E-Control.at fuel"
-		},
+			"es": "E-Control.at combustible",
+			"pl": "E-Control. Na paliwie",
+			"zh-cn": "燃油电子控制"
+		  },
 		"desc": {
 			"en": "Fuel prices for Austria",
-			"de": "Fuel prices for Austria",
-			"ru": "Fuel prices for Austria",
-			"pt": "Fuel prices for Austria",
-			"nl": "Fuel prices for Austria",
-			"fr": "Fuel prices for Austria",
-			"it": "Fuel prices for Austria",
-			"es": "Fuel prices for Austria",
-			"pl": "Fuel prices for Austria",
-			"zh-cn": "Fuel prices for Austria"
-		},
+			"de": "Kraftstoffpreise für Österreich",
+			"ru": "Цены на топливо для Австрии",
+			"pt": "Preços dos combustíveis na Áustria",
+			"nl": "Brandstofprijzen voor Oostenrijk",
+			"fr": "Prix du carburant pour l'Autriche",
+			"it": "Prezzi del carburante per l'Austria",
+			"es": "Precios de combustible para Austria",
+			"pl": "Ceny paliw dla Austrii",
+			"zh-cn": "奥地利的燃油价格"
+		  },
 		"authors": [
 			"xXBJXx <alienware.games@gmail.com>"
 		],
 		"keywords": [
-			"Austria"
+			"Austria",
+            "Fuel prices",
+            "Spritpreise",
+            "Österreich",
+            "Sprit",
+            "fuel",
+            "gas",
+            "Spritpreis",
+            "Tankstelle",
+            "Diesel",
+            "Benzin"
+
 		],
 		"license": "MIT",
 		"platform": "Javascript/Node.js",

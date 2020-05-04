@@ -1,4 +1,5 @@
 ![Logo](admin/e-control-at-fuel.png)
+
 # ioBroker.e-control-at-fuel
 
 [![NPM version](http://img.shields.io/npm/v/iobroker.e-control-at-fuel.svg)](https://www.npmjs.com/package/iobroker.e-control-at-fuel)
@@ -12,85 +13,38 @@
 
 **Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.e-control-at-fuel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.e-control-at-fuel)
 
-## e-control-at-fuel adapter for ioBroker
+## E-Control-at-fuel adapter for ioBroker
 
-Fuel prices for Austria
+### Fuel prices for Austria
 
-## Developer manual
-This section is intended for the developer. It can be deleted later
+# Beta Release
 
-### Getting started
+## Der Adapter liest die Spritpreise von E-Control.at aus:
 
-You are almost done, only a few steps left:
-1. Create a new repository on GitHub with the name `ioBroker.e-control-at-fuel`
-1. Initialize the current folder as a new git repository:  
-	```bash
-	git init
-	git add .
-	git commit -m "Initial commit"
-	```
-1. Link your local repository with the one on GitHub:  
-	```bash
-	git remote add origin https://github.com/xXBJXx/ioBroker.e-control-at-fuel
-	```
+![config](admin/config.png)
 
-1. Push all files to the GitHub repo:  
-	```bash
-	git push origin master
-	```
-1. Head over to [main.js](main.js) and start programming!
+Auf der config Seite muss man nur den Intervall **(die kleineste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen **https://www.latlong.net/** dann wählt man nur noch aus welche Sprit man will und fertig.
+sobald der Adapter startet wird ein Ordner für jede spalte, die auf der config Seite angelegt wurde, ein Ordner radius_x angelegt und in diese werden 5 Ordner für die Tankstellen angelegt.
 
-### Best Practices
-We've collected some [best practices](https://github.com/ioBroker/ioBroker.repositories#development-and-coding-best-practices) regarding ioBroker development and coding in general. If you're new to ioBroker or Node.js, you should
-check them out. If you're already experienced, you should also take a look at them - you might learn something new :)
+![config](admin/objects.png)
 
-### Scripts in `package.json`
-Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description                                              |
-|-------------|----------------------------------------------------------|
-| `test:js`   | Executes the tests you defined in `*.test.js` files.     |
-| `test:package`    | Ensures your `package.json` and `io-package.json` are valid. |
-| `test` | Performs a minimal test run on package files and your tests. |
-| `lint` | Runs `ESLint` to check your code for formatting errors and potential bugs. |
+Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **0.962€** beim 2ten wurde die **2** entfernt **0.96€** bei dieser variante kann man mit Hilfe von CSS und Bindings in der vis die entfernte **2** in klein anzeigen lasen z.B. so **0.96²€** und der 3te ist die entfernte **2**.
 
-### Writing tests
-When done right, testing code is invaluable, because it gives you the 
-confidence to change your code while knowing exactly if and when 
-something breaks. A good read on the topic of test-driven development 
-is https://hackernoon.com/introduction-to-test-driven-development-tdd-61a13bc92d92. 
-Although writing tests before the code might seem strange at first, but it has very 
-clear upsides.
+![config](admin/price.png)
 
-The template provides you with basic tests for the adapter startup and package files.
-It is recommended that you add your own tests into the mix.
-
-### Publishing the adapter
-To get your adapter released in ioBroker, please refer to the documentation 
-of [ioBroker.repositories](https://github.com/ioBroker/ioBroker.repositories#requirements-for-adapter-to-get-added-to-the-latest-repository).
-
-### Test the adapter manually on a local ioBroker installation
-In order to install the adapter locally without publishing, the following steps are recommended:
-1. Create a tarball from your dev directory:  
-	```bash
-	npm pack
-	```
-1. Upload the resulting file to your ioBroker host
-1. Install it locally (The paths are different on Windows):
-	```bash
-	cd /opt/iobroker
-	npm i /path/to/tarball.tgz
-	```
-
-For later updates, the above procedure is not necessary. Just do the following:
-1. Overwrite the changed files in the adapter directory (`/opt/iobroker/node_modules/iobroker.e-control-at-fuel`)
-1. Execute `iobroker upload e-control-at-fuel` on the ioBroker host
-
+____________________________
 ## Changelog
 
+### 0.0.2
+
+- (xXBJXx) beta release
+
 ### 0.0.1
-* (xXBJXx) initial release
+
+- (xXBJXx) initial release
 
 ## License
+
 MIT License
 
 Copyright (c) 2020 xXBJXx <alienware.games@gmail.com>

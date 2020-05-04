@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.1",
+		"version": "0.0.2",
 		"news": {
+			"0.0.2": {
+				"en": "beta release",
+				"de": "Beta-Version",
+				"ru": "бета-версия",
+				"pt": "versão beta",
+				"nl": "bètaversie",
+				"fr": "version bêta",
+				"it": "versione beta",
+				"es": "lanzamiento beta",
+				"pl": "wersja beta",
+				"zh-cn": "测试版"
+			  },
 			"0.0.1": {
 				"en": "initial release",
 				"de": "Erstveröffentlichung",
@@ -79,8 +91,8 @@
 		]
 	},
 	"native": {
-		"option1": true,
-		"option2": "42"
+		"address": [],
+		"interval": 5
 	},
 	"objects": [],
 	"instanceObjects": [

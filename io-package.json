@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.2",
+		"version": "0.0.3",
 		"news": {
+			"0.0.3": {
+				"en": "City and fuel type added as a designation",
+				"de": "Stadt und Kraftstoffart als Bezeichnung hinzugefügt",
+				"ru": "Город и тип топлива добавлены в качестве обозначения",
+				"pt": "Cidade e tipo de combustível adicionados como designação",
+				"nl": "Stad en brandstoftype toegevoegd als aanduiding",
+				"fr": "Ville et type de carburant ajoutés comme désignation",
+				"it": "Città e tipo di carburante aggiunti come designazione",
+				"es": "Ciudad y tipo de combustible agregado como designación",
+				"pl": "Dodano miasto i rodzaj paliwa jako oznaczenie",
+				"zh-cn": "添加城市和燃料类型作为名称"
+			  },
 			"0.0.2": {
 				"en": "beta release",
 				"de": "Beta-Version",
@@ -92,7 +104,7 @@
 	},
 	"native": {
 		"address": [],
-		"interval": 5
+		"interval": 15
 	},
 	"objects": [],
 	"instanceObjects": [

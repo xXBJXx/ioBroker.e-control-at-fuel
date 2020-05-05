@@ -13,8 +13,8 @@ const { default: axios } = require('axios');
 let timer = null;
 let requestTimeout = null;
 const apiUrl = [];
-
-
+const cityName = [];
+const fuel = [];
 class EControlAtFuel extends utils.Adapter {
 
 	/**
@@ -45,8 +45,14 @@ class EControlAtFuel extends utils.Adapter {
 		timer = this.config.interval;
 		if (timer < 10) {
 			timer = 10;
-			this.log.warn(`Attention the polling interval is below the minimum limit, please set it to at least 10 min`)
+			this.log.warn(`Attention the polling interval is below the minimum limit, please set it to at least 10 min`);
 		}
+		for (const i in this.config.address) {
+			// @ts-ignore
+			cityName[i] = await this.replaceFunction(this.config.address[i].city);
+			console.log(`cityName ${cityName}`)
+		}
+
 
 		await this.api();
 		await this.request();
@@ -56,10 +62,32 @@ class EControlAtFuel extends utils.Adapter {
 	async api() {
 		for (const i in this.config.address) {
 
+			// @ts-ignore
 			const latitude = this.config.address[i].latitude;
+			// @ts-ignore
 			const longitude = this.config.address[i].longitude;
+			// @ts-ignore
 			const fuelType = this.config.address[i].fuelType;
 
+			switch (fuelType) {
+				
+				case 'GAS':
+					fuel[i] = 'CNG';
+					console.log(fuel[i]);
+					break;
+				
+				case 'DIE':
+					fuel[i] = 'diesel';
+					console.log(fuel[i]);
+					break;
+
+				case 'SUP':
+					fuel[i] = 'super_95';
+					console.log(fuel[i]);
+					break;
+				
+				default:
+			}
 			apiUrl[i] = `https://api.e-control.at/sprit/1.0/search/gas-stations/by-address?latitude=${latitude}&longitude=${longitude}&fuelType=${fuelType}&includeClosed=true`;
 		}
 
@@ -73,7 +101,7 @@ class EControlAtFuel extends utils.Adapter {
 			for (const i in this.config.address) {
 				try {
 					apiResult[i] = await axios.get(apiUrl[i]);
-					console.log((apiResult));
+					// console.log((apiResult));
 				} catch (error) {
 					this.log.warn(`[apiResult] Unable to contact: ${error} | ${error}`);
 					continue;
@@ -101,10 +129,10 @@ class EControlAtFuel extends utils.Adapter {
 					console.log(`stationPostalCode: ${stationPostalCode}`);
 					console.log(`stationOpen: ${stationOpen}`);
 					console.log(`stationDistance: ${stationDistance}`);
-				
+
 					for (const d in await openingHours) {
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, {
 							type: 'state',
 							common: {
 								name: `${await openingHours[d].label}`,
@@ -118,7 +146,7 @@ class EControlAtFuel extends utils.Adapter {
 						});
 
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.name`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, {
 							type: 'state',
 							common: {
 								name: `station Name`,
@@ -131,7 +159,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.address`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, {
 							type: 'state',
 							common: {
 								name: `station Address`,
@@ -144,7 +172,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.city`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, {
 							type: 'state',
 							common: {
 								name: `station city`,
@@ -157,7 +185,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.postalCode`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, {
 							type: 'state',
 							common: {
 								name: `station PostalCode`,
@@ -170,7 +198,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.open`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, {
 							type: 'state',
 							common: {
 								name: `station Open`,
@@ -183,7 +211,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.distance`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, {
 							type: 'state',
 							common: {
 								name: `station Distance`,
@@ -199,7 +227,7 @@ class EControlAtFuel extends utils.Adapter {
 
 
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.prices.fuelType`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, {
 							type: 'state',
 							common: {
 								name: `station fuelType`,
@@ -212,7 +240,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.prices.price`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, {
 							type: 'state',
 							common: {
 								name: `station price`,
@@ -226,7 +254,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.prices.priceshort`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, {
 							type: 'state',
 							common: {
 								name: `station priceshort`,
@@ -240,7 +268,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.prices.price3rd`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, {
 							type: 'state',
 							common: {
 								name: `station price3rd`,
@@ -253,7 +281,7 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-						await this.extendObjectAsync(`radius_${[i]}.station_${[c]}.lastRequest`, {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
 							type: 'state',
 							common: {
 								name: `last request to E-Control`,
@@ -266,50 +294,53 @@ class EControlAtFuel extends utils.Adapter {
 						});
 
 						if (result.prices[0]) {
-							
+
 							const stationPrices = result.prices[0].amount;
 							const stationFuelType = result.prices[0].label;
 							const prices = this.cutPrice(await stationPrices);
 
 							console.log(`stationPrices: ${stationPrices}`);
 							console.log(`stationLabel: ${stationFuelType}`);
-							console.log(`prices: ${prices}`);
-		
-							this.log.debug(`stationPrices: ${stationPrices}`)
-							this.log.debug(`stationFuelType: ${stationFuelType}`)
-							this.log.debug(`prices: ${prices}`)
+							console.log(`prices: ${JSON.stringify(prices)}`);
+
+							this.log.debug(`stationPrices: ${stationPrices}`);
+							this.log.debug(`stationFuelType: ${stationFuelType}`);
+							this.log.debug(`prices: ${JSON.stringify(prices)}`);
 
 
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.name`, `${await stationName}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.city`, `${await stationCity}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.open`, `${await stationOpen}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.distance`, `${stationDistance}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.address`, `${await stationAddress}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.price`, `${(await prices).price}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.postalCode`, `${await stationPostalCode}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.fuelType`, `${await stationFuelType}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.price3rd`, `${(await prices).price3rd}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.priceshort`, `${(await prices).priceshort}`, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, `${await result.openingHours[d].from} to ${await result.openingHours[d].to}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${await stationName}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${await stationCity}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${await stationOpen}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${await stationAddress}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(await prices).price}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${await stationPostalCode}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${await stationFuelType}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(await prices).price3rd}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(await prices).priceshort}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, `${await result.openingHours[d].from} to ${await result.openingHours[d].to}`, true);
 
 						}
 						else {
 
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.name`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.city`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.open`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.distance`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.address`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.price`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.postalCode`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.fuelType`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.price3rd`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.prices.priceshort`, ``, true);
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-							this.setStateAsync(`radius_${[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, ``, true);
 
-							
+
 						}
 
 					}
@@ -347,6 +378,20 @@ class EControlAtFuel extends utils.Adapter {
 		}
 	}
 
+	async replaceFunction(str) {
+		if (str) {
+			str = str.replace(/ü/g, 'ue');
+			str = str.replace(/Ü/g, 'Ue');
+			str = str.replace(/ö/g, 'oe');
+			str = str.replace(/Ö/g, 'Oe');
+			str = str.replace(/Ä/g, 'Ae');
+			str = str.replace(/ä/g, 'ae');
+			str = str.replace(/\.*\./gi, '_');
+			str = str.replace(/ /gi, '_');
+			str = str.toLowerCase();
+			return str;
+		}
+	}
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback

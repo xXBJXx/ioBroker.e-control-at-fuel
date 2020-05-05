@@ -73,6 +73,18 @@ systemDictionary = {
 		'es': 'no establecer menos de 10 min',
 		'pl': 'nie ustawiać mniej niż 10 min',
 		'zh-cn': '不少于10分钟'
+	},
+	'city name': {
+		'en': 'city name',
+		'de': 'Stadtname',
+		'ru': 'название города',
+		'pt': 'Nome da Cidade',
+		'nl': 'stads naam',
+		'fr': 'Nom de Ville',
+		'it': 'nome della città',
+		'es': 'Nombre de la ciudad',
+		'pl': 'Nazwa miasta',
+		'zh-cn': '城市名称'
 	}
 
 

@@ -36,6 +36,10 @@ Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **
 ____________________________
 ## Changelog
 
+### 0.0.3
+
+- (xXBJXx) City and fuel type added as a designation
+
 ### 0.0.2
 
 - (xXBJXx) beta release

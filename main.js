@@ -42,7 +42,6 @@ class EControlAtFuel extends utils.Adapter {
 		// Reset the connection indicator during startup
 		this.setState('info.connection', false, true);
 
-
 		// timmer control min limit.
 		timer = this.config.interval;
 		if (timer < 10) {
@@ -52,7 +51,7 @@ class EControlAtFuel extends utils.Adapter {
 		for (const i in this.config.address) {
 			// @ts-ignore
 			cityName[i] = await this.replaceFunction(this.config.address[i].city);
-			console.log(`cityName ${cityName}`)
+			console.log(`cityName ${cityName}`);
 		}
 
 
@@ -64,6 +63,7 @@ class EControlAtFuel extends utils.Adapter {
 
 	async api() {
 		try {
+			
 			for (const i in this.config.address) {
 
 				// @ts-ignore
@@ -177,7 +177,7 @@ class EControlAtFuel extends utils.Adapter {
 								common: {
 									name: `station Open`,
 									type: 'boolean',
-									role: 'switch',
+									role: 'state',
 									def: '',
 									read: true,
 									write: false
@@ -374,7 +374,7 @@ class EControlAtFuel extends utils.Adapter {
 						common: {
 							name: `station Open`,
 							type: 'boolean',
-							role: 'switch',
+							role: 'state',
 							def: '',
 							read: true,
 							write: false
@@ -549,7 +549,7 @@ class EControlAtFuel extends utils.Adapter {
 					for (const u in result.openingHours) {
 						openingHours[u] = result.openingHours[u].from + ' to ' + result.openingHours[u].to;
 					}
-					const test = stationName.split(' ')
+					const test = stationName.split(' ');
 					console.log(`stationName: ${test[0]}`);
 					console.log(`stationName: ${stationName} short: ${stationLogoName[0].toLowerCase().replace(/-/gi, '_')}`);
 					console.log(`stationAddress: ${stationAddress}`);
@@ -576,11 +576,12 @@ class EControlAtFuel extends utils.Adapter {
 							'Open': stationOpen,
 							'Name': stationName,
 							'Stadt': stationCity,
+							// @ts-ignore
 							'Preis': (await prices).priceshort + ' €',
 							'Fuel_Typ': stationFuelType
 
 						}];
-						const logosName = ['aral', 'eni', 'shell', 'omv', 'avanti', 'bp', 'jet', 'turmöl', 'lagerhaus', 'avia', 'a1', 'diskont', 'iq', 'sb-tankstelle', 'land', 'thrainer',
+						const logosName = ['aral', 'eni', 'shell', 'omv', 'avanti', 'bp', 'jet', 'turmöl', 'lagerhaus', 'avia', 'a1', 'diskont', 'iq', 'sb_tankstelle', 'land', 'thrainer',
 							'inn-tank', 'fillup', 'gutmann', 'holzknecht',];
 
 						console.log(`prices: ${JSON.stringify(logosName)}`);

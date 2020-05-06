@@ -108,6 +108,11 @@
 		"connectionType": "cloud",
 		"dataSource": "poll",
 		"materialize": true,
+		"plugins": {
+			"sentry": {
+			  "dsn": "https://b7e372719d254bbe9121d122067ea3ac@o384969.ingest.sentry.io/5225125"
+			}
+		  },
 		"dependencies": [
 			{
 				"js-controller": ">=1.4.2"

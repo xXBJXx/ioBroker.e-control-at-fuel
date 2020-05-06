@@ -43,7 +43,12 @@ _____________________
 * [x] Ein DP billigste/teuerste Tankstelle
 
 ____________________________
+
 ## Changelog
+
+### 0.0.5
+
+* (xXBJXx) Json table adjusted and all stations in one Dp
 
 ### 0.0.4
 

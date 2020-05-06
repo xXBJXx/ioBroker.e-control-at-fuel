@@ -3,6 +3,18 @@
 		"name": "e-control-at-fuel",
 		"version": "0.0.4",
 		"news": {
+			"0.0.5": {
+				"en": "Json table adjusted and all stations in one Dp",
+				"de": "Json Tabelle angepasst und alle Stationen in einem Dp",
+				"ru": "Таблица JSON настроена и все станции в одном Dp",
+				"pt": "Tabela Json ajustada e todas as estações em um Dp",
+				"nl": "Json tafel aangepast en alle stations in één Dp",
+				"fr": "Table Json ajustée et toutes les stations dans un Dp",
+				"it": "Tabella Json modificata e tutte le stazioni in un Dp",
+				"es": "Mesa Json ajustada y todas las estaciones en una Dp",
+				"pl": "Tabela Jsona dostosowana i wszystkie stacje w jednym Dp",
+				"zh-cn": "调整了Json表并将所有电台合计为一个Dp"
+			  },
 			"0.0.4": {
 				"en": "cheapest / most expensive gas station\n added DP output as JSON\n added Gas station logos",
 				"de": "billigste / teuerste Tankstelle\n DP-Ausgabe als JSON hinzugefügt\n Tankstellenlogos hinzugefügt",

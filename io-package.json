@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.4",
+		"version": "0.0.5",
 		"news": {
 			"0.0.5": {
 				"en": "Json table adjusted and all stations in one Dp",

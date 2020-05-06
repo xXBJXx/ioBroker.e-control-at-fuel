@@ -32,21 +32,38 @@ sobald der Adapter startet wird ein Ordner für jede spalte, die auf der config 
 Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **0.962€** beim 2ten wurde die **2** entfernt **0.96€** bei dieser variante kann man mit Hilfe von CSS und Bindings in der vis die entfernte **2** in klein anzeigen lasen z.B. so **0.96²€** und der 3te ist die entfernte **2**.
 
 ![config](admin/price.png)
+_____________________
+
+## To-Do
+
+* [ ] Tankstellen Logos
+
+* [x] Ausgabe der DP als JSON /Table
+
+* [x] Ein DP billigste/teuerste Tankstelle
 
 ____________________________
 ## Changelog
 
+### 0.0.4
+
+* (xXBJXx) cheapest / most expensive gas station
+
+* (xXBJXx) Added DP output as JSON
+
+* (xXBJXx) added Gas station logos
+
 ### 0.0.3
 
-- (xXBJXx) City and fuel type added as a designation
+* (xXBJXx) City and fuel type added as a designation
 
 ### 0.0.2
 
-- (xXBJXx) beta release
+* (xXBJXx) beta release
 
 ### 0.0.1
 
-- (xXBJXx) initial release
+* (xXBJXx) initial release
 
 ## License
 

@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.3",
+		"version": "0.0.4",
 		"news": {
+			"0.0.4": {
+				"en": "cheapest / most expensive gas station\n added DP output as JSON\n added Gas station logos",
+				"de": "billigste / teuerste Tankstelle\n DP-Ausgabe als JSON hinzugefügt\n Tankstellenlogos hinzugefügt",
+				"ru": "самая дешевая / самая дорогая заправка\n добавлен вывод DP в виде JSON\n добавлены логотипы АЗС",
+				"pt": "posto de gasolina mais barato / mais caro\n adicionada saída DP como JSON\n logotipos de postos de gasolina adicionados",
+				"nl": "goedkoopste / duurste tankstation\n DP-uitvoer toegevoegd als JSON\n Logo's tankstation toegevoegd",
+				"fr": "station d'essence la moins chère / la plus chère\n sortie DP ajoutée en JSON\n logos de station-service ajoutés",
+				"it": "distributore di benzina più economico / più costoso\n aggiunto l'output DP come JSON\n aggiunti i loghi delle stazioni di servizio",
+				"es": "gasolinera más barata / más cara\n salida DP agregada como JSON\n logotipos de gasolineras añadidos",
+				"pl": "najtańsza / najdroższa stacja benzynowa\n dodano wyjście DP jako JSON\n dodano logo stacji benzynowej",
+				"zh-cn": "最便宜/最昂贵的加油站\n 将DP输出添加为JSON\n 添加了加油站徽标"
+			  },
 			"0.0.3": {
 				"en": "City and fuel type added as a designation",
 				"de": "Stadt und Kraftstoffart als Bezeichnung hinzugefügt",

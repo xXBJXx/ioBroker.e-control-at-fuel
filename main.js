@@ -15,6 +15,8 @@ let requestTimeout = null;
 const apiUrl = [];
 const cityName = [];
 const fuel = [];
+const apiResult = [];
+const weekDay = [`Montag`, `Dienstag`, `Mittwoch`, `Donnerstag`, `Feiertag`, `Samstag`, `Sonntag`, `Freitag`];
 class EControlAtFuel extends utils.Adapter {
 
 	/**
@@ -55,87 +57,257 @@ class EControlAtFuel extends utils.Adapter {
 
 
 		await this.api();
+		await this.create_States();
 		await this.request();
 
 	}
 
 	async api() {
-		for (const i in this.config.address) {
+		try {
+			for (const i in this.config.address) {
 
-			// @ts-ignore
-			const latitude = this.config.address[i].latitude;
-			// @ts-ignore
-			const longitude = this.config.address[i].longitude;
-			// @ts-ignore
-			const fuelType = this.config.address[i].fuelType;
+				// @ts-ignore
+				const latitude = this.config.address[i].latitude;
+				// @ts-ignore
+				const longitude = this.config.address[i].longitude;
+				// @ts-ignore
+				const fuelType = this.config.address[i].fuelType;
 
-			switch (fuelType) {
-				
-				case 'GAS':
-					fuel[i] = 'CNG';
-					console.log(fuel[i]);
-					break;
-				
-				case 'DIE':
-					fuel[i] = 'diesel';
-					console.log(fuel[i]);
-					break;
+				switch (fuelType) {
 
-				case 'SUP':
-					fuel[i] = 'super_95';
-					console.log(fuel[i]);
-					break;
-				
-				default:
+					case 'GAS':
+						fuel[i] = 'CNG';
+						console.log(fuel[i]);
+						break;
+
+					case 'DIE':
+						fuel[i] = 'diesel';
+						console.log(fuel[i]);
+						break;
+
+					case 'SUP':
+						fuel[i] = 'super_95';
+						console.log(fuel[i]);
+						break;
+
+					default:
+				}
+				apiUrl[i] = `https://api.e-control.at/sprit/1.0/search/gas-stations/by-address?latitude=${latitude}&longitude=${longitude}&fuelType=${fuelType}&includeClosed=true`;
 			}
-			apiUrl[i] = `https://api.e-control.at/sprit/1.0/search/gas-stations/by-address?latitude=${latitude}&longitude=${longitude}&fuelType=${fuelType}&includeClosed=true`;
+		} catch (error) {
+			this.log.error(`[api()]: ${error.message}, stack: ${error.stack}`);
 		}
-
-
 	}
 
-	async request() {
+	async create_States() {
 		try {
-			const apiResult = [];
+			const folder = [`cheapest`, `most_expensive`];
+			for (const v in folder) {
+				for (const i in this.config.address) {
+					for (let c = 0; c <= 4; c++) {
+						for (const d in weekDay) {
 
-			for (const i in this.config.address) {
-				try {
-					apiResult[i] = await axios.get(apiUrl[i]);
-					// console.log((apiResult));
-				} catch (error) {
-					this.log.warn(`[apiResult] Unable to contact: ${error} | ${error}`);
-					continue;
-				}
-			}
-			// Try to reach API and receive data
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, {
+								type: 'state',
+								common: {
+									name: `${weekDay[d]}`,
+									type: 'string',
+									role: 'dayofweek',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
 
-			this.setState('info.connection', true, true);
-			// this.log.info(JSON.stringify(apiResult.data))
-			// for (const c in apiResult.data) {
-			for (const i in apiResult) {
-				for (let c = 0; c <= 4; c++) {
-					const result = apiResult[i].data[c];
-					const stationName = result.name;
-					const stationAddress = result.location.address;
-					const stationCity = result.location.city;
-					const stationPostalCode = result.location.postalCode;
-					const stationOpen = result.open;
-					const stationDistance = Math.round(result.distance * 100) / 100;
-					const openingHours = result.openingHours;
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, {
+								type: 'state',
+								common: {
+									name: `station Name`,
+									type: 'string',
+									role: 'text',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
 
-					console.log(`stationName: ${stationName}`);
-					console.log(`stationAddress: ${stationAddress}`);
-					console.log(`stationCity: ${stationCity}`);
-					console.log(`stationPostalCode: ${stationPostalCode}`);
-					console.log(`stationOpen: ${stationOpen}`);
-					console.log(`stationDistance: ${stationDistance}`);
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, {
+								type: 'state',
+								common: {
+									name: `station Address`,
+									type: 'string',
+									role: 'text',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
 
-					for (const d in await openingHours) {
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, {
+								type: 'state',
+								common: {
+									name: `station city`,
+									type: 'string',
+									role: 'text',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
 
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, {
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, {
+								type: 'state',
+								common: {
+									name: `station PostalCode`,
+									type: 'string',
+									role: 'text',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, {
+								type: 'state',
+								common: {
+									name: `station Open`,
+									type: 'boolean',
+									role: 'switch',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, {
+								type: 'state',
+								common: {
+									name: `station Distance`,
+									type: 'number',
+									role: 'value.distance',
+									unit: 'km',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, {
+								type: 'state',
+								common: {
+									name: `station fuelType`,
+									type: 'string',
+									role: 'text',
+									def: '',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, {
+								type: 'state',
+								common: {
+									name: `station price`,
+									type: 'number',
+									role: 'value',
+									unit: '€',
+									def: '0',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, {
+								type: 'state',
+								common: {
+									name: `station priceshort`,
+									type: 'number',
+									role: 'value',
+									unit: '€',
+									def: '0',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, {
+								type: 'state',
+								common: {
+									name: `station price3rd`,
+									type: 'number',
+									role: 'value',
+									def: '0',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
+								type: 'state',
+								common: {
+									name: `last request to E-Control`,
+									type: 'number',
+									role: 'value.time',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.jsonTable`, {
+								type: 'state',
+								common: {
+									name: `Json table`,
+									type: 'string',
+									role: 'json',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo`, {
+								type: 'state',
+								common: {
+									name: `station logo`,
+									type: 'string',
+									role: 'url.icon',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, {
+								type: 'state',
+								common: {
+									name: `station logo NR`,
+									type: 'number',
+									role: 'value',
+									read: true,
+									write: false
+								},
+								native: {},
+							});
+
+						}
+					}
+					for (const d in weekDay) {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours.${weekDay[d]}`, {
 							type: 'state',
 							common: {
-								name: `${await openingHours[d].label}`,
+								name: `${weekDay[d]}`,
 								type: 'string',
 								role: 'dayofweek',
 								def: '',
@@ -144,208 +316,211 @@ class EControlAtFuel extends utils.Adapter {
 							},
 							native: {},
 						});
-
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, {
-							type: 'state',
-							common: {
-								name: `station Name`,
-								type: 'string',
-								role: 'text',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, {
-							type: 'state',
-							common: {
-								name: `station Address`,
-								type: 'string',
-								role: 'text',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, {
-							type: 'state',
-							common: {
-								name: `station city`,
-								type: 'string',
-								role: 'text',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, {
-							type: 'state',
-							common: {
-								name: `station PostalCode`,
-								type: 'string',
-								role: 'text',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, {
-							type: 'state',
-							common: {
-								name: `station Open`,
-								type: 'boolean',
-								role: 'switch',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, {
-							type: 'state',
-							common: {
-								name: `station Distance`,
-								type: 'number',
-								role: 'value.distance',
-								unit: 'km',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, {
-							type: 'state',
-							common: {
-								name: `station fuelType`,
-								type: 'string',
-								role: 'text',
-								def: '',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, {
-							type: 'state',
-							common: {
-								name: `station price`,
-								type: 'number',
-								role: 'value',
-								unit: '€',
-								def: '0',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, {
-							type: 'state',
-							common: {
-								name: `station priceshort`,
-								type: 'number',
-								role: 'value',
-								unit: '€',
-								def: '0',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, {
-							type: 'state',
-							common: {
-								name: `station price3rd`,
-								type: 'number',
-								role: 'value',
-								def: '0',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
-							type: 'state',
-							common: {
-								name: `last request to E-Control`,
-								type: 'number',
-								role: 'value.time',
-								read: true,
-								write: false
-							},
-							native: {},
-						});
-
-						if (result.prices[0]) {
-
-							const stationPrices = result.prices[0].amount;
-							const stationFuelType = result.prices[0].label;
-							const prices = this.cutPrice(await stationPrices);
-
-							console.log(`stationPrices: ${stationPrices}`);
-							console.log(`stationLabel: ${stationFuelType}`);
-							console.log(`prices: ${JSON.stringify(prices)}`);
-
-							this.log.debug(`stationPrices: ${stationPrices}`);
-							this.log.debug(`stationFuelType: ${stationFuelType}`);
-							this.log.debug(`prices: ${JSON.stringify(prices)}`);
-
-
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${await stationName}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${await stationCity}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${await stationOpen}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${await stationAddress}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-							// @ts-ignore
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(await prices).price}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${await stationPostalCode}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${await stationFuelType}`, true);
-							// @ts-ignore
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(await prices).price3rd}`, true);
-							// @ts-ignore
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(await prices).priceshort}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, `${await result.openingHours[d].from} to ${await result.openingHours[d].to}`, true);
-
-						}
-						else {
-
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${await openingHours[d].label}`, ``, true);
-
-
-						}
-
 					}
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.name`, {
+						type: 'state',
+						common: {
+							name: `station Name`,
+							type: 'string',
+							role: 'text',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.address`, {
+						type: 'state',
+						common: {
+							name: `station Address`,
+							type: 'string',
+							role: 'text',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.city`, {
+						type: 'state',
+						common: {
+							name: `station city`,
+							type: 'string',
+							role: 'text',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.postalCode`, {
+						type: 'state',
+						common: {
+							name: `station PostalCode`,
+							type: 'string',
+							role: 'text',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.open`, {
+						type: 'state',
+						common: {
+							name: `station Open`,
+							type: 'boolean',
+							role: 'switch',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.distance`, {
+						type: 'state',
+						common: {
+							name: `station Distance`,
+							type: 'number',
+							role: 'value.distance',
+							unit: 'km',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.fuelType`, {
+						type: 'state',
+						common: {
+							name: `station fuelType`,
+							type: 'string',
+							role: 'text',
+							def: '',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.price`, {
+						type: 'state',
+						common: {
+							name: `station price`,
+							type: 'number',
+							role: 'value',
+							unit: '€',
+							def: '0',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.priceshort`, {
+						type: 'state',
+						common: {
+							name: `station priceshort`,
+							type: 'number',
+							role: 'value',
+							unit: '€',
+							def: '0',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.price3rd`, {
+						type: 'state',
+						common: {
+							name: `station price3rd`,
+							type: 'number',
+							role: 'value',
+							def: '0',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.lastRequest`, {
+						type: 'state',
+						common: {
+							name: `last request to E-Control`,
+							type: 'number',
+							role: 'value.time',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.jsonTable`, {
+						type: 'state',
+						common: {
+							name: `Json table`,
+							type: 'string',
+							role: 'json',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo`, {
+						type: 'state',
+						common: {
+							name: `station logo`,
+							type: 'string',
+							role: 'url.icon',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
+
+					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo_Nr`, {
+						type: 'state',
+						common: {
+							name: `station logo NR`,
+							type: 'number',
+							role: 'value',
+							read: true,
+							write: false
+						},
+						native: {},
+					});
 				}
 			}
+		} catch (error) {
+			this.log.error(`[create_States]: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+	async request() {
+		try {
+
+			for (const i in this.config.address) {
+				try {
+					// Try to reach API and receive data
+					apiResult[i] = await axios.get(apiUrl[i]);
+
+				} catch (error) {
+					this.log.warn(`[apiResult] Unable to contact: ${error} | ${error}`);
+					continue;
+				}
+			}
+
+			this.setState('info.connection', true, true);
+
+			await this.statesWrite();
 			requestTimeout = setTimeout(async () => {
 
 				this.request();
@@ -354,7 +529,157 @@ class EControlAtFuel extends utils.Adapter {
 		} catch (error) {
 			this.log.warn(`[Request and setState] Unable to contact: ${error} | ${error}`);
 		}
+	}
 
+	async statesWrite() {
+		try {
+			const openingHours = [];
+
+			for (const i in apiResult) {
+				for (let c = 0; c <= 4; c++) {
+					const result = apiResult[i].data[c];
+					const stationName = result.name;
+					const stationLogoName = stationName.split(' ');
+					const stationAddress = result.location.address;
+					const stationCity = result.location.city;
+					const stationPostalCode = result.location.postalCode;
+					const stationOpen = result.open;
+					const stationDistance = Math.round(result.distance * 100) / 100;
+
+					for (const u in result.openingHours) {
+						openingHours[u] = result.openingHours[u].from + ' to ' + result.openingHours[u].to;
+					}
+					const test = stationName.split(' ')
+					console.log(`stationName: ${test[0]}`);
+					console.log(`stationName: ${stationName} short: ${stationLogoName[0].toLowerCase().replace(/-/gi, '_')}`);
+					console.log(`stationAddress: ${stationAddress}`);
+					console.log(`stationCity: ${stationCity}`);
+					console.log(`stationPostalCode: ${stationPostalCode}`);
+					console.log(`stationOpen: ${stationOpen}`);
+					console.log(`stationDistance: ${stationDistance}`);
+
+					if (result.prices[0]) {
+
+						const stationPrices = result.prices[0].amount;
+						const stationFuelType = result.prices[0].label;
+						const prices = this.cutPrice(await stationPrices);
+
+						console.log(`stationPrices: ${stationPrices}`);
+						console.log(`stationLabel: ${stationFuelType}`);
+						console.log(`prices: ${JSON.stringify(prices)}`);
+
+						this.log.debug(`stationPrices: ${stationPrices}`);
+						this.log.debug(`stationFuelType: ${stationFuelType}`);
+						this.log.debug(`prices: ${JSON.stringify(prices)}`);
+
+						const jsonTable = [{
+							'Open': stationOpen,
+							'Name': stationName,
+							'Stadt': stationCity,
+							'Preis': (await prices).priceshort + ' €',
+							'Fuel_Typ': stationFuelType
+
+						}];
+						const logosName = ['aral', 'eni', 'shell', 'omv', 'avanti', 'bp', 'jet', 'turmöl', 'lagerhaus', 'avia', 'a1', 'diskont', 'iq', 'sb-tankstelle', 'land', 'thrainer',
+							'inn-tank', 'fillup', 'gutmann', 'holzknecht',];
+
+						console.log(`prices: ${JSON.stringify(logosName)}`);
+						this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
+
+
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${await stationName}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${await stationCity}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${await stationOpen}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${await stationAddress}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+						// @ts-ignore
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(await prices).price}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${await stationPostalCode}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${await stationFuelType}`, true);
+						// @ts-ignore
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(await prices).price3rd}`, true);
+						// @ts-ignore
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(await prices).priceshort}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
+
+
+						if (c == 0) {
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${await stationName}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${await stationCity}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${await stationOpen}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${await stationAddress}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, { val: Date.now(), ack: true });
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(await prices).price}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${await stationPostalCode}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${await stationFuelType}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(await prices).price3rd}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(await prices).priceshort}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
+						}
+
+						if (c == 4) {
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${await stationName}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${await stationCity}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${await stationOpen}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${await stationAddress}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, { val: Date.now(), ack: true });
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(await prices).price}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${await stationPostalCode}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${await stationFuelType}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(await prices).price3rd}`, true);
+							// @ts-ignore
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(await prices).priceshort}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
+
+						}
+
+						for (const logo in logosName) {
+							if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') == logosName[logo]) {
+								console.log(`${logosName[logo]} Nr: ${logo} `);
+
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
+								this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
+
+								if (c == 0) {
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
+									this.log.debug(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr: ${logo}`);
+								}
+
+								if (c == 4) {
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
+									this.log.debug(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr: ${logo}`);
+								}
+								break;
+							}
+						}
+					}
+
+					for (const d in openingHours) {
+						if (result.prices[0]) {
+
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
+
+							if (c == 0) {
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
+							}
+						}
+					}
+				}
+			}
+		} catch (error) {
+			this.log.error(`[statesWrite]: ${error.message}, stack: ${error.stack}`);
+		}
 	}
 
 	async cutPrice(preis) {
@@ -374,7 +699,7 @@ class EControlAtFuel extends utils.Adapter {
 			};
 
 		} catch (error) {
-			this.log.warn(`[Request] Unable to contact: ${error} | ${error}`);
+			this.log.warn(`[cutPrice]: ${error.message}, stack: ${error.stack}`);
 		}
 	}
 
@@ -392,6 +717,7 @@ class EControlAtFuel extends utils.Adapter {
 			return str;
 		}
 	}
+
 	/**
 	 * Is called when adapter shuts down - callback has to be called under any circumstances!
 	 * @param {() => void} callback
@@ -402,7 +728,6 @@ class EControlAtFuel extends utils.Adapter {
 
 			if (requestTimeout) clearTimeout(requestTimeout);
 			this.setState('info.connection', false, true);
-
 
 
 			this.log.info('cleaned everything up...');

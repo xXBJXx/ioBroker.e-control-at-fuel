@@ -46,6 +46,10 @@ ____________________________
 
 ## Changelog
 
+### 0.0.7
+
+* (xXBJXx) fixed name bug and added new stations + logos
+
 ### 0.0.6
 
 * (xXBJXx) added Gas station logos in svg and png format

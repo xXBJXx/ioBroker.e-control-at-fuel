@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.6",
+		"version": "0.0.7",
 		"news": {
+			"0.0.7": {
+				"en": "Fixed name bug and added new stations + logos",
+				"de": "Namensfehler behoben und neue Stationen + Logos hinzugefügt",
+				"ru": "Исправлена ошибка с именем и добавлены новые станции + логотипы",
+				"pt": "Corrigido o erro do nome e adicionava novas estações + logotipos",
+				"nl": "Naamfout opgelost en nieuwe stations + logo's toegevoegd",
+				"fr": "Correction d'un bug de nom et ajout de nouvelles stations + logos",
+				"it": "Corretto errore nel nome e aggiunta di nuove stazioni + loghi",
+				"es": "Se corrigió el error del nombre y se agregaron nuevas estaciones + logotipos",
+				"pl": "Naprawiono błąd nazwy i dodano nowe stacje + logo",
+				"zh-cn": "修复了名称错误并添加了新的电台和徽标"
+			  },
 			"0.0.6": {
 				"en": "added Gas station logos in svg and png format",
 				"de": "Tankstellenlogos im SVG- und PNG-Format hinzugefügt",

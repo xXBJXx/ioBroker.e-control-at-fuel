@@ -114,7 +114,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `${weekDay[d]}`,
 									type: 'string',
 									role: 'dayofweek',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -127,7 +126,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station Name`,
 									type: 'string',
 									role: 'text',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -140,7 +138,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station Address`,
 									type: 'string',
 									role: 'text',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -153,7 +150,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station city`,
 									type: 'string',
 									role: 'text',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -166,7 +162,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station PostalCode`,
 									type: 'string',
 									role: 'text',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -179,7 +174,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station Open`,
 									type: 'boolean',
 									role: 'state',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -193,7 +187,6 @@ class EControlAtFuel extends utils.Adapter {
 									type: 'number',
 									role: 'value.distance',
 									unit: 'km',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -206,7 +199,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station fuelType`,
 									type: 'string',
 									role: 'text',
-									def: '',
 									read: true,
 									write: false
 								},
@@ -220,7 +212,6 @@ class EControlAtFuel extends utils.Adapter {
 									type: 'number',
 									role: 'value',
 									unit: '€',
-									def: '0',
 									read: true,
 									write: false
 								},
@@ -234,7 +225,6 @@ class EControlAtFuel extends utils.Adapter {
 									type: 'number',
 									role: 'value',
 									unit: '€',
-									def: '0',
 									read: true,
 									write: false
 								},
@@ -247,7 +237,6 @@ class EControlAtFuel extends utils.Adapter {
 									name: `station price3rd`,
 									type: 'number',
 									role: 'value',
-									def: '0',
 									read: true,
 									write: false
 								},
@@ -277,7 +266,7 @@ class EControlAtFuel extends utils.Adapter {
 								},
 								native: {},
 							});
-							
+
 							for (const f in format) {
 								await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, {
 									type: 'state',
@@ -312,7 +301,6 @@ class EControlAtFuel extends utils.Adapter {
 								name: `${weekDay[d]}`,
 								type: 'string',
 								role: 'dayofweek',
-								def: '',
 								read: true,
 								write: false
 							},
@@ -325,7 +313,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station Name`,
 							type: 'string',
 							role: 'text',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -338,7 +325,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station Address`,
 							type: 'string',
 							role: 'text',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -351,7 +337,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station city`,
 							type: 'string',
 							role: 'text',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -364,7 +349,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station PostalCode`,
 							type: 'string',
 							role: 'text',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -377,7 +361,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station Open`,
 							type: 'boolean',
 							role: 'state',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -391,7 +374,6 @@ class EControlAtFuel extends utils.Adapter {
 							type: 'number',
 							role: 'value.distance',
 							unit: 'km',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -404,7 +386,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station fuelType`,
 							type: 'string',
 							role: 'text',
-							def: '',
 							read: true,
 							write: false
 						},
@@ -418,7 +399,6 @@ class EControlAtFuel extends utils.Adapter {
 							type: 'number',
 							role: 'value',
 							unit: '€',
-							def: '0',
 							read: true,
 							write: false
 						},
@@ -432,7 +412,6 @@ class EControlAtFuel extends utils.Adapter {
 							type: 'number',
 							role: 'value',
 							unit: '€',
-							def: '0',
 							read: true,
 							write: false
 						},
@@ -445,7 +424,6 @@ class EControlAtFuel extends utils.Adapter {
 							name: `station price3rd`,
 							type: 'number',
 							role: 'value',
-							def: '0',
 							read: true,
 							write: false
 						},

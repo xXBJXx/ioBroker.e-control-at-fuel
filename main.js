@@ -17,6 +17,7 @@ const cityName = [];
 const fuel = [];
 const apiResult = [];
 const weekDay = [`Montag`, `Dienstag`, `Mittwoch`, `Donnerstag`, `Feiertag`, `Samstag`, `Sonntag`, `Freitag`];
+const format = [`svg`, `png`];
 class EControlAtFuel extends utils.Adapter {
 
 	/**
@@ -276,19 +277,20 @@ class EControlAtFuel extends utils.Adapter {
 								},
 								native: {},
 							});
-
-							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo`, {
-								type: 'state',
-								common: {
-									name: `station logo`,
-									type: 'string',
-									role: 'url.icon',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
+							
+							for (const f in format) {
+								await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, {
+									type: 'state',
+									common: {
+										name: `station logo ${format[f]}`,
+										type: 'string',
+										role: 'url.icon',
+										read: true,
+										write: false
+									},
+									native: {},
+								});
+							}
 							await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, {
 								type: 'state',
 								common: {
@@ -462,29 +464,19 @@ class EControlAtFuel extends utils.Adapter {
 						native: {},
 					});
 
-					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.jsonTable`, {
-						type: 'state',
-						common: {
-							name: `Json table`,
-							type: 'string',
-							role: 'json',
-							read: true,
-							write: false
-						},
-						native: {},
-					});
-
-					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo`, {
-						type: 'state',
-						common: {
-							name: `station logo`,
-							type: 'string',
-							role: 'url.icon',
-							read: true,
-							write: false
-						},
-						native: {},
-					});
+					for (const f in format) {
+						await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo_${format[f]}`, {
+							type: 'state',
+							common: {
+								name: `station logo ${format[f]}`,
+								type: 'string',
+								role: 'url.icon',
+								read: true,
+								write: false
+							},
+							native: {},
+						});
+					}
 
 					await this.extendObjectAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo_Nr`, {
 						type: 'state',
@@ -559,8 +551,7 @@ class EControlAtFuel extends utils.Adapter {
 					for (const u in result.openingHours) {
 						openingHours[u] = result.openingHours[u].from + ' to ' + result.openingHours[u].to;
 					}
-					// const test = stationName.split(' ');
-					// console.log(`stationName: ${test[0]}`);
+
 					console.log(`stationName: ${stationName[c]} short: ${stationLogoName[0].toLowerCase().replace(/-/gi, '_')}`);
 					console.log(`stationAddress: ${stationAddress[c]}`);
 					console.log(`stationCity: ${stationCity[c]}`);
@@ -662,21 +653,27 @@ class EControlAtFuel extends utils.Adapter {
 						for (const logo in logosName) {
 							if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') == logosName[logo]) {
 								console.log(`${logosName[logo]} Nr: ${logo} `);
+								for (const f in format) {
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+									this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
+									this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
+									this.log.debug(`/e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
-								this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
+									if (c == 0) {
 
-								if (c == 0) {
-									this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
-									this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
-									this.log.debug(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr: ${logo}`);
-								}
+										this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+										this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
+										this.log.debug(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr: ${logo}`);
+										this.log.debug(`/e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
+									}
 
-								if (c == 4) {
-									this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo`, `/e-control-at-fuel.admin/logo/${logo}.svg`, true);
-									this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
-									this.log.debug(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr: ${logo}`);
+									if (c == 4) {
+
+										this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+										this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
+										this.log.debug(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr: ${logo}`);
+										this.log.debug(`/e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
+									}
 								}
 								break;
 							}

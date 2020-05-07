@@ -46,6 +46,10 @@ ____________________________
 
 ## Changelog
 
+### 0.0.6
+
+* (xXBJXx) added Gas station logos in svg and png format
+
 ### 0.0.5
 
 * (xXBJXx) Json table adjusted and all stations in one Dp

@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.5",
+		"version": "0.0.6",
 		"news": {
+			"0.0.6": {
+				"en": "added Gas station logos in svg and png format",
+				"de": "Tankstellenlogos im SVG- und PNG-Format hinzugefügt",
+				"ru": "добавлены логотипы АЗС в форматах svg и png",
+				"pt": "logotipos de postos de gasolina adicionados nos formatos svg e png",
+				"nl": "Benzinestationlogo's toegevoegd in svg- en png-formaat",
+				"fr": "logos de station-service ajoutés au format svg et png",
+				"it": "aggiunti i loghi delle stazioni di servizio in formato svg e png",
+				"es": "logotipos de gasolineras añadidos en formato svg y png",
+				"pl": "dodano logo stacji benzynowej w formacie svg i png",
+				"zh-cn": "以svg和png格式添加了加油站徽标"
+			  },
 			"0.0.5": {
 				"en": "Json table adjusted and all stations in one Dp",
 				"de": "Json Tabelle angepasst und alle Stationen in einem Dp",

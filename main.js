@@ -494,7 +494,7 @@ class EControlAtFuel extends utils.Adapter {
 
 			this.setState('info.connection', true, true);
 
-
+			await this.statesWrite();
 			requestTimeout = setTimeout(async () => {
 
 				this.request();

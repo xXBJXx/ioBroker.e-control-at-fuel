@@ -2,12 +2,13 @@
 
 # ioBroker.e-control-at-fuel
 
-[![NPM version](http://img.shields.io/npm/v/iobroker.e-control-at-fuel.svg)](https://www.npmjs.com/package/iobroker.e-control-at-fuel)
-[![Downloads](https://img.shields.io/npm/dm/iobroker.e-control-at-fuel.svg)](https://www.npmjs.com/package/iobroker.e-control-at-fuel)
-![Number of Installations (latest)](http://iobroker.live/badges/e-control-at-fuel-installed.svg)
-![Number of Installations (stable)](http://iobroker.live/badges/e-control-at-fuel-stable.svg)
-[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.e-control-at-fuel.svg)](https://david-dm.org/xXBJXx/iobroker.e-control-at-fuel)
-[![Known Vulnerabilities](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel/badge.svg)](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel)
+[![NPM version](http://img.shields.io/npm/v/iobroker.e-control-at-fuel.svg?logo=npm)](https://www.npmjs.com/package/iobroker.e-control-at-fuel) 
+[![Downloads](https://img.shields.io/npm/dm/iobroker.e-control-at-fuel.svg?logo=npm)](https://www.npmjs.com/package/iobroker.e-control-at-fuel)
+
+![Installations](http://iobroker.live/badges/e-control-at-fuel-installed.svg)
+![Stable](http://iobroker.live/badges/e-control-at-fuel-stable.svg) 
+[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.e-control-at-fuel.svg)](https://david-dm.org/xXBJXx/iobroker.e-control-at-fuel) 
+[![Known Vulnerabilities](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel/badge.svg)](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel) 
 
 [![NPM](https://nodei.co/npm/iobroker.e-control-at-fuel.png?downloads=true)](https://nodei.co/npm/iobroker.e-control-at-fuel/)
 

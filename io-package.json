@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.7",
+		"version": "0.0.8",
 		"news": {
+			"0.0.8": {
+				"en": "added new stations + logos\n new state prices.combined",
+				"de": "neue Stationen + Logos hinzugefügt\n neue staatliche Preise.kombiniert",
+				"ru": "добавлены новые станции + логотипы\n новые государственные цены",
+				"pt": "adicionadas novas estações + logotipos\n novo estado prices.combined",
+				"nl": "nieuwe stations + logo's toegevoegd\n nieuwe staat prijzen. gecombineerd",
+				"fr": "ajout de nouvelles stations + logos\n nouveaux prix d'État.combined",
+				"it": "aggiunte nuove stazioni + loghi\n nuovi prezzi statali associati",
+				"es": "Añadidas nuevas estaciones + logos\n nuevos precios estatales combinados",
+				"pl": "dodano nowe stacje + logo\n ceny nowego stanu.com połączone",
+				"zh-cn": "添加了新电台和徽标\n 新州prices.combined"
+			  },
 			"0.0.7": {
 				"en": "Fixed name bug and added new stations + logos",
 				"de": "Namensfehler behoben und neue Stationen + Logos hinzugefügt",

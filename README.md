@@ -18,20 +18,46 @@
 ### Fuel prices for Austria
 
 # Beta Release
+
 [forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
 ## Der Adapter liest die Spritpreise von E-Control.at aus:
 
 ![config](admin/config.png)
 
-Auf der config Seite muss man nur den Intervall **(die kleineste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen **https://www.latlong.net/** dann wählt man nur noch aus welche Sprit man will und fertig.
-sobald der Adapter startet wird ein Ordner für jede spalte, die auf der config Seite angelegt wurde, ein Ordner radius_x angelegt und in diese werden 5 Ordner für die Tankstellen angelegt.
+Auf der config Seite muss man nur den Intervall **(die kleineste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen **https://www.latlong.net/** dann wählt man nur noch aus welchem Sprit man will und fertig.
+sobald der Adapter startet wird ein Ordner für jede spalte, die auf der config Seite angelegt wurde, ein Ordner mit dem Stadtnamen und der Sprit Art z.B. **rosenheim_diesel** angelegt und in diese werden dann die Tankstellen Ordner angelegt die Anzahl hängt von den Tankstellen ab die ihre preis übermitteln des weiteren werden 2 Ordner angelegt die die billigsten und den teuerste Tankstellen angelegt und eine JSON Tabelle für alle Tankstellen die im Ordner angelegt wurden.
 
 ![config](admin/objects.png)
 
-Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **0.962€** beim 2ten wurde die **2** entfernt **0.96€** bei dieser variante kann man mit Hilfe von CSS und Bindings in der vis die entfernte **2** in klein anzeigen lasen z.B. so **0.96²€** und der 3te ist die entfernte **2**.
+Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **0.962€** beim 2ten wurde die **2** entfernt **0.96€** bei dieser Variante kann man mit Hilfe von CSS und Bindings in der vis die entfernte **2** in klein anzeigen lasen z.B. so **0.96²€** und der 3te ist die entfernte **2**.
+der state combined ist ein html code, der den priceshort und price3rd verbindet zu z.B. 0.93³€ dieser kann in der vis in html Widget genutzt werden.
 
 ![config](admin/price.png)
+
+![config](admin/html-widget.png)
+
+Ich empfehle damit Bindings zu arbeiten so z.B. **{e-control-at-fuel.0.radstadt_CNG.cheapest.prices.combined}** der Wert wird dann automatisch aktualisiert
+dem html wird eine CSS class mitgegeben hier noch die passende CSS:
+
+```
+
+.station_open {
+    color: blue;
+}
+
+.station_closed {
+    color: red !important; /* !important kann ggf. weggelassen werden */
+}
+
+/* € sign */
+.station_combined_euro {
+    font-family: Times;
+    font-size: 80%;
+}
+
+```
+
 _____________________
 
 ## To-Do
@@ -45,6 +71,11 @@ _____________________
 ____________________________
 
 ## Changelog
+
+### 0.0.8
+
+* (xXBJXx) added new stations + logos
+* (xXBJXx) new state prices.combined
 
 ### 0.0.7
 

@@ -14,13 +14,11 @@
 
 **Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.e-control-at-fuel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.e-control-at-fuel)
 
-## E-Control-at-fuel adapter for ioBroker
+## E-Control-at-fuel
 
 ### Fuel prices for Austria
 
-# Beta Release
-
-[forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
+[Forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
 ## Der Adapter liest die Spritpreise von E-Control.at aus:
 
@@ -72,6 +70,10 @@ _____________________
 ____________________________
 
 ## Changelog
+
+### 0.1.0
+
+* (xXBJXx) Latest Release
 
 ### 0.0.8
 

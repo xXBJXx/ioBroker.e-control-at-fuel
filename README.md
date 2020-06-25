@@ -14,13 +14,13 @@
 
 **Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.e-control-at-fuel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.e-control-at-fuel)
 
-## E-Control-at-fuel adapter for ioBroker
+## E-Control-at-fuel
 
 ### Fuel prices for Austria
 
-# Beta Release
+[Forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
-[forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
+**Dieser Adapter verwendet Sentry-Bibliotheken, um Ausnahmen und Codefehler automatisch an die Entwickler zu melden.** Weitere Details und Informationen zum Deaktivieren der Fehlerberichterstattung finden Sie in der [Sentry-Plugin-Dokumentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) ! Sentry Reporting wird ab js-controller 3.0 verwendet.
 
 ## Der Adapter liest die Spritpreise von E-Control.at aus:
 
@@ -72,6 +72,14 @@ _____________________
 ____________________________
 
 ## Changelog
+
+### 0.1.1
+
+* (xXBJXx) Code optimization carried out and README adapted
+
+### 0.1.0
+
+* (xXBJXx) Latest Release
 
 ### 0.0.8
 

@@ -18,6 +18,9 @@ const fuel = [];
 const apiResult = [];
 const weekDay = [`Montag`, `Dienstag`, `Mittwoch`, `Donnerstag`, `Feiertag`, `Samstag`, `Sonntag`, `Freitag`];
 const format = [`svg`, `png`];
+
+
+
 class EControlAtFuel extends utils.Adapter {
 
 	/**
@@ -29,8 +32,6 @@ class EControlAtFuel extends utils.Adapter {
 			name: 'e-control-at-fuel',
 		});
 		this.on('ready', this.onReady.bind(this));
-		this.on('objectChange', this.onObjectChange.bind(this));
-		this.on('stateChange', this.onStateChange.bind(this));
 		this.on('unload', this.onUnload.bind(this));
 	}
 
@@ -59,7 +60,8 @@ class EControlAtFuel extends utils.Adapter {
 		await this.api();
 		await this.request();
 		await this.create_States();
-		await this.statesWrite();
+
+		// await this.statesWrite();
 
 	}
 
@@ -98,6 +100,33 @@ class EControlAtFuel extends utils.Adapter {
 			}
 		} catch (error) {
 			this.log.error(`[api()]: ${error.message}, stack: ${error.stack}`);
+		}
+	}
+
+	async request() {
+		try {
+
+			for (const i in this.config.address) {
+				try {
+					// Try to reach API and receive data
+					apiResult[i] = await axios.get(apiUrl[i]);
+					// console.log(`stationCity: ${apiResult[i]}`);
+				} catch (error) {
+					this.log.warn(`[apiResult] Unable to contact: ${error} | ${error}`);
+					continue;
+				}
+			}
+
+			this.setState('info.connection', true, true);
+			// await this.create_States();
+			await this.statesWrite();
+			requestTimeout = setTimeout(async () => {
+
+				this.request();
+			}, timer * 60000);
+
+		} catch (error) {
+			this.log.warn(`[Request and setState] Unable to contact: ${error} | ${error}`);
 		}
 	}
 
@@ -495,39 +524,11 @@ class EControlAtFuel extends utils.Adapter {
 							native: {},
 						});
 
-
 					}
 				}
 			}
 		} catch (error) {
 			this.log.error(`[create_States]: ${error.message}, stack: ${error.stack}`);
-		}
-	}
-
-	async request() {
-		try {
-
-			for (const i in this.config.address) {
-				try {
-					// Try to reach API and receive data
-					apiResult[i] = await axios.get(apiUrl[i]);
-					console.log(`stationCity: ${apiResult[i]}`);
-				} catch (error) {
-					this.log.warn(`[apiResult] Unable to contact: ${error} | ${error}`);
-					continue;
-				}
-			}
-
-			this.setState('info.connection', true, true);
-
-			await this.statesWrite();
-			requestTimeout = setTimeout(async () => {
-
-				this.request();
-			}, timer * 60000);
-
-		} catch (error) {
-			this.log.warn(`[Request and setState] Unable to contact: ${error} | ${error}`);
 		}
 	}
 
@@ -543,8 +544,9 @@ class EControlAtFuel extends utils.Adapter {
 			const prices = [];
 			const stationFuelType = [];
 			const open = [];
-
+			
 			for (const i in apiResult) {
+				let number_of_station = -1;
 				const jsonTable = [];
 				for (const c in apiResult[i].data) {
 					const result = apiResult[i].data[c];
@@ -571,7 +573,7 @@ class EControlAtFuel extends utils.Adapter {
 
 						const stationPrices = result.prices[0].amount;
 						stationFuelType[c] = result.prices[0].label;
-						prices[c] = this.cutPrice(await stationPrices);
+						prices[c] = await this.cutPrice(stationPrices);
 
 						console.log(`stationPrices: ${stationPrices}`);
 						console.log(`stationLabel: ${stationFuelType}`);
@@ -593,79 +595,84 @@ class EControlAtFuel extends utils.Adapter {
 							'Stadt': stationCity[c],
 							'Addresse': stationAddress[c],
 							// @ts-ignore
-							'Preis': (await prices[c]).priceshort + ' €',
+							'Preis': (prices[c]).priceshort + ' €',
 							'Fuel_Typ': stationFuelType[c],
 							'Distance': stationDistance[c] + ' km',
 							'Open': open[c]
 						};
 
 						const logosName = ['aral', 'eni', 'shell', 'omv', 'avanti', 'bp', 'jet', 'turmöl', 'lagerhaus', 'avia', 'a1', 'diskont', 'iq', 'sb_tankstelle', 'land', 'thrainer',
-							'inn_tank', 'fillup', 'gutmann', 'holzknecht', 'diesel', 'genol_lagerhaustankstelle', 'mosonyi', 'lagerhaus_genol', 'pfluger'];
+							'inn_tank', 'fillup', 'gutmann', 'holzknecht', 'diesel', 'genol_lagerhaustankstelle', 'mosonyi', 'lagerhaus_genol', 'pfluger', 'pink'];
 
 						console.log(`prices: ${JSON.stringify(logosName)}`);
 						this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
 
 
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${await stationName[c]}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${await stationCity[c]}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${await stationOpen[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${stationName[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${stationCity[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${stationOpen[c]}`, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance[c]}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${await stationAddress[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${stationAddress[c]}`, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(await prices[c]).price}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${await stationPostalCode[c]}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${await stationFuelType[c]}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(await prices[c]).price3rd}`, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(await prices[c]).priceshort}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(prices[c]).price}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${stationPostalCode[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${stationFuelType[c]}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 						if (stationOpen[c]) {
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_open"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 						}
 						else {
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_closed"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 						}
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
 
 
 						if (c == '0') {
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${await stationName[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${await stationCity[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${await stationOpen[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${stationName[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${stationCity[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${stationOpen[c]}`, true);
 							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${await stationAddress[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${stationAddress[c]}`, true);
 							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, { val: Date.now(), ack: true });
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(await prices[c]).price}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${await stationPostalCode[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${await stationFuelType[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(await prices[c]).price3rd}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(await prices[c]).priceshort}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(prices[c]).price}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${stationPostalCode[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${stationFuelType[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 							if (stationOpen[c]) {
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_open"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 							else {
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_closed"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
+						}
+						if (apiResult[i].data[c].prices[0]) {
+						
+							number_of_station = number_of_station + 1;
+							console.log(`number of station: ${number_of_station}`);
 						}
 
-						if (c == '4') {
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${await stationName[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${await stationCity[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${await stationOpen[c]}`, true);
+						if (c == `${number_of_station}`) {
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${stationName[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${stationCity[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${stationOpen[c]}`, true);
 							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${await stationAddress[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${stationAddress[c]}`, true);
 							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, { val: Date.now(), ack: true });
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(await prices[c]).price}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${await stationPostalCode[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${await stationFuelType[c]}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(await prices[c]).price3rd}`, true);
-							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(await prices[c]).priceshort}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(prices[c]).price}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${stationPostalCode[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${stationFuelType[c]}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+							this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 							if (stationOpen[c]) {
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_open"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 							else {
-								this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_closed"> ${(await prices[c]).priceshort}<sup style="font-size: 50%"> ${(await prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 						}
-						if (result.prices[0]) {
+						if (result.prices[0]) {  //Cheapest station logo review
 
 							for (const logo in logosName) {
 								if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') == logosName[logo]) {
@@ -676,6 +683,7 @@ class EControlAtFuel extends utils.Adapter {
 										this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
 										this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 										console.log(`${logosName[logo]} [LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
+
 										if (c == '0') {
 
 											this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
@@ -684,7 +692,7 @@ class EControlAtFuel extends utils.Adapter {
 											this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 										}
 
-										if (c == '4') {
+										if (c == `${number_of_station}`) {
 
 											this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
 											this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
@@ -704,7 +712,7 @@ class EControlAtFuel extends utils.Adapter {
 							}
 						}
 					}
-					else {
+					else { 		//Empty data points if there is no station
 						this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]} 'station not found'`);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
@@ -713,14 +721,14 @@ class EControlAtFuel extends utils.Adapter {
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
-						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `$`, true);
+						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
 						this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
 					}
 
 
-
+					// Opening times for the stations
 					for (const d in openingHours) {
 						if (result.prices[0]) {
 
@@ -729,13 +737,12 @@ class EControlAtFuel extends utils.Adapter {
 							if (c == '0') {
 								this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 							}
-							if (c == '4') {
+							if (c == `${number_of_station}`) {
 								this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 							}
 						}
 						else {
 							this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, ``, true);
-
 						}
 					}
 
@@ -746,20 +753,21 @@ class EControlAtFuel extends utils.Adapter {
 		}
 	}
 
-	async cutPrice(preis) {
+	// Decimal point calculation and separation function 
+	async cutPrice(fuel_price) {
 		try {
-			preis = parseFloat(preis);
-			let temp = preis * 100;   // 100facher Preis jetzt mit einer Nachkommastelle
-			const temp2 = preis * 1000; // 1000facher Preis ohne Nachkommastelle
-			temp = Math.floor(temp);  // Nachkommastelle (.x) wird abgeschnitten
-			temp = temp / 100;          // es bleiben zwei Nachkommastellen
-			const price_short = temp.toFixed(2); // Preis mit 2 Nachkommastellen ausgeben (abgeschnitten)
-			const price_3rd_digit = Math.ceil(temp2 - (temp * 1000)); // Dritte Nachommastelle einzeln ermitteln
+			fuel_price = parseFloat(fuel_price);
+			let temp = fuel_price * 100;   // the price now with one decimal place
+			const temp2 = fuel_price * 1000; // Price without decimal place
+			temp = Math.floor(temp);  // Decimal place (.x) is cut off
+			temp = temp / 100;          // there are two decimal places
+			const price_short = temp.toFixed(2); // Output price with 2 decimal places (cut off)
+			const price_3rd_digit = Math.ceil(temp2 - (temp * 1000)); // Determine the third decimal place individually
 			return {
-				priceshort: price_short, // als String wg. Nullen zB 1.10 statt 1.1
+				priceshort: price_short, // as a string Zeros e.g. 1.10 instead of 1.1
 				// @ts-ignore
 				price3rd: parseInt(price_3rd_digit, 10),
-				price: preis
+				price: fuel_price
 			};
 
 		} catch (error) {
@@ -788,49 +796,14 @@ class EControlAtFuel extends utils.Adapter {
 	 */
 	onUnload(callback) {
 		try {
-
-
 			if (requestTimeout) clearTimeout(requestTimeout);
 			this.setState('info.connection', false, true);
 
-
-			this.log.info('cleaned everything up...');
 			callback();
 		} catch (e) {
 			callback();
 		}
 	}
-
-	/**
-	 * Is called if a subscribed object changes
-	 * @param {string} id
-	 * @param {ioBroker.Object | null | undefined} obj
-	 */
-	onObjectChange(id, obj) {
-		if (obj) {
-			// The object was changed
-			this.log.info(`object ${id} changed: ${JSON.stringify(obj)}`);
-		} else {
-			// The object was deleted
-			this.log.info(`object ${id} deleted`);
-		}
-	}
-
-	/**
-	 * Is called if a subscribed state changes
-	 * @param {string} id
-	 * @param {ioBroker.State | null | undefined} state
-	 */
-	onStateChange(id, state) {
-		if (state) {
-			// The state was changed
-			this.log.info(`state ${id} changed: ${state.val} (ack = ${state.ack})`);
-		} else {
-			// The state was deleted
-			this.log.info(`state ${id} deleted`);
-		}
-	}
-
 }
 
 // @ts-ignore parent is a valid property on module

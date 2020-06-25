@@ -1,8 +1,32 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.0.8",
+		"version": "0.1.1",
 		"news": {
+			"0.1.1": {
+				"en": "Code optimization carried out and README adapted",
+				"de": "Code Optimierung durchgeführt und README angepasst",
+				"ru": "Проведена оптимизация кода и адаптирована README",
+				"pt": "Otimização de código realizada e README adaptado",
+				"nl": "Code-optimalisatie uitgevoerd en README aangepast",
+				"fr": "Optimisation du code réalisée et README adaptée",
+				"it": "Ottimizzazione del codice effettuata e README adattato",
+				"es": "Optimización de código realizada y README adaptado",
+				"pl": "Przeprowadzono optymalizację kodu i dostosowano README",
+				"zh-cn": "进行代码优化并采用README"
+			  },
+			  "0.1.0": {
+				"en": "Latest Release",
+				"de": "Neueste Erscheinung",
+				"ru": "Последний релиз",
+				"pt": "Último lançamento",
+				"nl": "Laatste release",
+				"fr": "Dernière version",
+				"it": "Ultima uscita",
+				"es": "Último lanzamiento",
+				"pl": "Najnowsze wydanie",
+				"zh-cn": "最新发布的"
+			  },
 			"0.0.8": {
 				"en": "added new stations + logos\n new state prices.combined",
 				"de": "neue Stationen + Logos hinzugefügt\n neue staatliche Preise.kombiniert",
@@ -163,7 +187,7 @@
 		  },
 		"dependencies": [
 			{
-				"js-controller": ">=1.4.2"
+				"js-controller": ">=2.0.0"
 			}
 		]
 	},

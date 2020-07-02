@@ -1,6 +1,6 @@
 {
   "name": "iobroker.e-control-at-fuel",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fuel prices for Austria",
   "author": {
     "name": "xXBJXx",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@iobroker/adapter-core": "^2.4.0",
-    "@sentry/node": "^5.18.0",
+    "@sentry/node": "^5.19.0",
     "axios": "^0.19.2"
   },
   "devDependencies": {

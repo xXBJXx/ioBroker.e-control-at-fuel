@@ -1,8 +1,20 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.1.1",
+		"version": "0.1.2",
 		"news": {
+			"0.1.2": {
+				"en": "code adjustment carried out",
+				"de": "Code-Anpassung durchgeführt",
+				"ru": "выполняется корректировка кода",
+				"pt": "ajuste de código realizado",
+				"nl": "code aanpassing uitgevoerd",
+				"fr": "ajustement du code effectué",
+				"it": "regolazione del codice effettuata",
+				"es": "ajuste de código realizado",
+				"pl": "przeprowadzona korekta kodu",
+				"zh-cn": "进行代码调整"
+			  },
 			"0.1.1": {
 				"en": "Code optimization carried out and README adapted",
 				"de": "Code Optimierung durchgeführt und README angepasst",

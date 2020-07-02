@@ -73,6 +73,10 @@ ____________________________
 
 ## Changelog
 
+### 0.1.2
+
+* (xXBJXx) code adjustment carried out
+
 ### 0.1.1
 
 * (xXBJXx) Code optimization carried out and README adapted

@@ -189,43 +189,43 @@ class EControlAtFuel extends utils.Adapter {
 						this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
 
 
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${stationName[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${stationCity[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${stationOpen[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${stationAddress[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(prices[c]).price}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${stationPostalCode[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${stationFuelType[c]}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(prices[c]).priceshort}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${stationName[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${stationCity[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${stationOpen[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${stationAddress[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(prices[c]).price}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${stationPostalCode[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${stationFuelType[c]}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 						if (stationOpen[c]) {
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 						}
 						else {
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 						}
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
 
 
 						if (c == '0') {
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${stationName[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${stationCity[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${stationOpen[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${stationAddress[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, { val: Date.now(), ack: true });
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(prices[c]).price}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${stationPostalCode[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${stationFuelType[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(prices[c]).priceshort}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${stationName[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${stationCity[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${stationOpen[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${stationAddress[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, { val: Date.now(), ack: true });
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(prices[c]).price}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${stationPostalCode[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${stationFuelType[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 							if (stationOpen[c]) {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 							else {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 						}
 						if (apiResult[i].data[c].prices[0]) {
@@ -235,22 +235,22 @@ class EControlAtFuel extends utils.Adapter {
 						}
 
 						if (c == `${number_of_station}`) {
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${stationName[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${stationCity[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${stationOpen[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${stationAddress[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, { val: Date.now(), ack: true });
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(prices[c]).price}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${stationPostalCode[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${stationFuelType[c]}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(prices[c]).priceshort}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${stationName[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${stationCity[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${stationOpen[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${stationAddress[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, { val: Date.now(), ack: true });
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(prices[c]).price}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${stationPostalCode[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${stationFuelType[c]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(prices[c]).price3rd}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(prices[c]).priceshort}`, true);
 							if (stationOpen[c]) {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 							else {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
 							}
 						}
 						if (result.prices[0]) {  //Cheapest station logo review
@@ -259,24 +259,24 @@ class EControlAtFuel extends utils.Adapter {
 								if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') == logosName[logo]) {
 									console.log(`${logosName[logo]} Nr: ${logo} `);
 									for (const f in format) {
-										await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-										await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
+										this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+										this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
 										this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
 										this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 										console.log(`${logosName[logo]} [LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 
 										if (c == '0') {
 
-											await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-											await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
+											this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+											this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
 											this.log.debug(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr: ${logo}`);
 											this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 										}
 
 										if (c == `${number_of_station}`) {
 
-											await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-											await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
+											this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
+											this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
 											this.log.debug(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr: ${logo}`);
 											this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 										}
@@ -287,25 +287,25 @@ class EControlAtFuel extends utils.Adapter {
 						}
 						else {
 							for (const f in format) {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, ``, true);
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, ``, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, ``, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, ``, true);
 								this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: 'station not found'`);
 							}
 						}
 					}
 					else { 		//Empty data points if there is no station
 						this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]} 'station not found'`);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
-						await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
+						this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
 					}
 
 
@@ -313,17 +313,17 @@ class EControlAtFuel extends utils.Adapter {
 					for (const d in openingHours) {
 						if (result.prices[0]) {
 
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 
 							if (c == '0') {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 							}
 							if (c == `${number_of_station}`) {
-								await this.setStateAsync(`${cityName[i]}_${fuel[i]}.most_expensive.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
+								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 							}
 						}
 						else {
-							await this.setStateAsync(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, ``, true);
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, ``, true);
 						}
 					}
 
@@ -333,8 +333,6 @@ class EControlAtFuel extends utils.Adapter {
 			}
 
 			this.setState('info.connection', true, true);
-			// await this.create_States();
-			// await this.statesWrite();
 			requestTimeout = setTimeout(async () => {
 
 				this.request();

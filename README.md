@@ -73,6 +73,12 @@ ____________________________
 
 ## Changelog
 
+### 0.1.3
+
+* (xXBJXx) Adjusted the code and fixed some bugs
+* (xXBJXx) Dependency updates performed
+
+
 ### 0.1.2
 
 * (xXBJXx) code adjustment carried out

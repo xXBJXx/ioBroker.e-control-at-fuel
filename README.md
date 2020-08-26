@@ -73,11 +73,14 @@ ____________________________
 
 ## Changelog
 
+### 0.1.4
+
+* (xXBJXx) Dependency updates performed
+
 ### 0.1.3
 
 * (xXBJXx) Adjusted the code and fixed some bugs
 * (xXBJXx) Dependency updates performed
-
 
 ### 0.1.2
 

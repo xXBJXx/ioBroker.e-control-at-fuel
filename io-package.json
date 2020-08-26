@@ -1,19 +1,31 @@
 {
 	"common": {
 		"name": "e-control-at-fuel",
-		"version": "0.1.3",
-		"news": {
+		"version": "0.1.4",
+		"news": {	
+			"0.1.4": {
+				"en": "Dependency updates performed",
+				"de": "Abhängigkeitsaktualisierungen durchgeführt",
+				"ru": "Обновления зависимостей выполнены",
+				"pt": "Atualizações de dependência realizadas",
+				"nl": "Afhankelijkheidsupdates uitgevoerd",
+				"fr": "Mises à jour des dépendances effectuées",
+				"it": "Aggiornamenti delle dipendenze eseguiti",
+				"es": "Actualizaciones de dependencia realizadas",
+				"pl": "Wykonano aktualizacje zależności",
+				"zh-cn": "进行依赖更新"
+			  },
 			"0.1.3": {
-				"en": "Adjusted the code and fixed some bugs\nDependency updates performed",
-				"de": "Der Code wurde angepasst und einige Fehler behoben\nAbhängigkeitsaktualisierungen durchgeführt",
-				"ru": "Скорректировали код и исправили некоторые ошибки\nОбновления зависимостей выполнены",
-				"pt": "Ajustou o código e corrigiu alguns bugs\nAtualizações de dependência realizadas",
-				"nl": "De code aangepast en enkele bugs verholpen\nAfhankelijkheidsupdates uitgevoerd",
-				"fr": "Ajustement du code et correction de quelques bugs\nMises à jour des dépendances effectuées",
-				"it": "Modificato il codice e risolto alcuni bug\nAggiornamenti delle dipendenze eseguiti",
-				"es": "Ajustó el código y corrigió algunos errores.\nActualizaciones de dependencia realizadas",
-				"pl": "Poprawiono kod i naprawiono kilka błędów\nWykonano aktualizacje zależności",
-				"zh-cn": "调整了代码并修复了一些错误\n进行依赖更新"
+				"en": "Adjusted the code and fixed some bugs",
+				"de": "Der Code wurde angepasst und einige Fehler behoben",
+				"ru": "Скорректировали код и исправили некоторые ошибки",
+				"pt": "Ajustou o código e corrigiu alguns bugs",
+				"nl": "De code aangepast en enkele bugs verholpen",
+				"fr": "Ajustement du code et correction de quelques bugs",
+				"it": "Modificato il codice e risolto alcuni bug",
+				"es": "Ajustó el código y corrigió algunos errores.",
+				"pl": "Poprawiono kod i naprawiono kilka błędów",
+				"zh-cn": "调整了代码并修复了一些错误"
 			  },
 			"0.1.2": {
 				"en": "code adjustment carried out",

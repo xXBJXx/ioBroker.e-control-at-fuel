@@ -20,7 +20,9 @@
 
 [Forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
-**Dieser Adapter verwendet Sentry-Bibliotheken, um Ausnahmen und Codefehler automatisch an die Entwickler zu melden.** Weitere Details und Informationen zum Deaktivieren der Fehlerberichterstattung finden Sie in der [Sentry-Plugin-Dokumentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) ! Sentry Reporting wird ab js-controller 3.0 verwendet.
+**Dieser Adapter verwendet Sentry-Bibliotheken, um Ausnahmen und Codefehler automatisch an die Entwickler zu melden.** 
+Weitere Details und Informationen zum Deaktivieren der Fehlerberichterstattung finden Sie in der 
+[Sentry-Plugin-Dokumentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) ! Sentry Reporting wird ab js-controller 3.0 verwendet.
 
 ## Der Adapter liest die Spritpreise von E-Control.at aus:
 
@@ -72,6 +74,12 @@ _____________________
 ____________________________
 
 ## Changelog
+<!--
+Placeholder for the next version (at the beginning of the line):
+### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
+-->
+
+
 
 ### 0.1.4
 

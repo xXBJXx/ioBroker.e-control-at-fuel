@@ -7,12 +7,11 @@
 
 ![Installations](http://iobroker.live/badges/e-control-at-fuel-installed.svg)
 ![Stable](http://iobroker.live/badges/e-control-at-fuel-stable.svg) 
-[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.e-control-at-fuel.svg)](https://david-dm.org/xXBJXx/iobroker.e-control-at-fuel) 
-[![Known Vulnerabilities](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel/badge.svg)](https://snyk.io/test/github/xXBJXx/ioBroker.e-control-at-fuel) 
+[![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.e-control-at-fuel.svg)](https://david-dm.org/xXBJXx/iobroker.e-control-at-fuel)
 
 [![NPM](https://nodei.co/npm/iobroker.e-control-at-fuel.png?downloads=true)](https://nodei.co/npm/iobroker.e-control-at-fuel/)
 
-**Tests:**: [![Travis-CI](http://img.shields.io/travis/xXBJXx/ioBroker.e-control-at-fuel/master.svg)](https://travis-ci.org/xXBJXx/ioBroker.e-control-at-fuel)
+**Tests:** ![Test and Release](https://github.com/xXBJXx/ioBroker.e-control-at-fuel/workflows/Test%20and%20Release/badge.svg)
 
 ## E-Control-at-fuel
 
@@ -67,19 +66,18 @@ _____________________
 
 * [ ] Tankstellen Logos
 
-* [x] Ausgabe der DP als JSON /Table
-
-* [x] Ein DP billigste/teuerste Tankstelle
-
 ____________________________
 
 ## Changelog
 <!--
-Placeholder for the next version (at the beginning of the line):
-### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
+ Placeholder for the next version (at the beginning of the line):
+ ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
 
-
+### __WORK IN PROGRESS__
+* (xXBJXx) add GitHub Actions (test and release) and dependabot auto merge
+* (xXBJXx) Dependency updates performed
+* (xXBJXx) change State create 
 
 ### 0.1.4
 
@@ -143,7 +141,7 @@ Placeholder for the next version (at the beginning of the line):
 
 MIT License
 
-Copyright (c) 2020 xXBJXx <alienware.games@gmail.com>
+Copyright (c) 2020 xXBJXx
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

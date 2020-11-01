@@ -7,8 +7,17 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 const utils = require('@iobroker/adapter-core');
-const { default: axios } = require('axios');
+const {default: axios} = require('axios');
+const object = require('./lib/object_definition');
+const logos = require('./lib/logoName');
 // Load your modules here, e.g.:
+const object_openingHours = object['object_openingHours_definitions'];
+const object_prices = object['object_prices_definitions'];
+const object_jsonTable = object['object_jsonTable_definitions'];
+const object_main = object['object_main_definitions'];
+const object_logo = object['object_logo_definitions'];
+const logosName = logos['logosName'];
+
 
 let timer = null;
 let requestTimeout = null;
@@ -18,7 +27,6 @@ const fuel = [];
 const apiResult = [];
 const weekDay = [`Montag`, `Dienstag`, `Mittwoch`, `Donnerstag`, `Feiertag`, `Samstag`, `Sonntag`, `Freitag`];
 const format = [`svg`, `png`];
-
 
 
 class EControlAtFuel extends utils.Adapter {
@@ -44,7 +52,7 @@ class EControlAtFuel extends utils.Adapter {
 		// Reset the connection indicator during startup
 		this.setState('info.connection', false, true);
 
-		// timmer control min limit.
+		// timer control min limit.
 		timer = this.config.interval;
 		if (timer < 10) {
 			timer = 10;
@@ -59,7 +67,6 @@ class EControlAtFuel extends utils.Adapter {
 
 		await this.api();
 		await this.request();
-
 
 
 	}
@@ -116,7 +123,7 @@ class EControlAtFuel extends utils.Adapter {
 
 			} catch (error) {
 				this.log.error(`[request] Unable to contact: ${error} | ${error}`);
-				continue;
+
 			}
 		}
 		await this.create_States();
@@ -124,7 +131,7 @@ class EControlAtFuel extends utils.Adapter {
 		this.setState('info.connection', true, true);
 		requestTimeout = setTimeout(async () => {
 
-			this.request();
+			await this.request();
 		}, timer * 60000);
 	}
 
@@ -153,7 +160,6 @@ class EControlAtFuel extends utils.Adapter {
 
 				for (const c in apiResult[i].data) {
 					if (apiResult[i].data[c].prices[0]) {
-
 
 
 						const result = apiResult[i].data[c];
@@ -197,17 +203,17 @@ class EControlAtFuel extends utils.Adapter {
 								'Open': open[c]
 							};
 
-							const logosName = ['aral', 'eni', 'shell', 'omv', 'avanti', 'bp', 'jet', 'turmöl', 'lagerhaus', 'avia', 'a1', 'diskont', 'iq', 'sb_tankstelle', 'land', 'thrainer',
-								'inn_tank', 'fillup', 'gutmann', 'holzknecht', 'diesel', 'genol_lagerhaustankstelle', 'mosonyi', 'lagerhaus_genol', 'pfluger', 'pink'];
 
-							this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
 							// console.debug(`main 1 : c: ${i} / f: ${i} / s: ${c}`);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${stationName[c]}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${stationCity[c]}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${stationOpen[c]}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance[c]}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${stationAddress[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
+								val: Date.now(),
+								ack: true
+							});
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(prices[c]).price}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${stationPostalCode[c]}`, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${stationFuelType[c]}`, true);
@@ -224,14 +230,17 @@ class EControlAtFuel extends utils.Adapter {
 
 							this.setState(`${cityName[i]}_${fuel[i]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
 
-							if (c == '0') {
+							if (c === '0') {
 
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${stationName[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${stationCity[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${stationOpen[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${stationAddress[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, { val: Date.now(), ack: true });
+								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, {
+									val: Date.now(),
+									ack: true
+								});
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(prices[c]).price}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${stationPostalCode[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${stationFuelType[c]}`, true);
@@ -245,14 +254,17 @@ class EControlAtFuel extends utils.Adapter {
 								}
 							}
 
-							if (c == `${number_of_station}`) {
+							if (c === `${number_of_station}`) {
 
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${stationName[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${stationCity[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${stationOpen[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${stationAddress[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, { val: Date.now(), ack: true });
+								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, {
+									val: Date.now(),
+									ack: true
+								});
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(prices[c]).price}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${stationPostalCode[c]}`, true);
 								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${stationFuelType[c]}`, true);
@@ -269,7 +281,8 @@ class EControlAtFuel extends utils.Adapter {
 							if (result.prices[0]) {  //Cheapest station logo review
 
 								for (const logo in logosName) {
-									if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') == logosName[logo]) {
+									this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
+									if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') === logosName[logo]) {
 
 										for (const f in format) {
 
@@ -278,7 +291,7 @@ class EControlAtFuel extends utils.Adapter {
 											this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
 											this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 
-											if (c == '0') {
+											if (c === '0') {
 
 												this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
 												this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
@@ -286,7 +299,7 @@ class EControlAtFuel extends utils.Adapter {
 												this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
 											}
 
-											if (c == `${number_of_station}`) {
+											if (c === `${number_of_station}`) {
 
 												this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
 												this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
@@ -313,11 +326,11 @@ class EControlAtFuel extends utils.Adapter {
 
 									this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 
-									if (c == '0') {
+									if (c === '0') {
 
 										this.setState(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 									}
-									if (c == `${number_of_station}`) {
+									if (c === `${number_of_station}`) {
 
 										this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
 									}
@@ -338,7 +351,10 @@ class EControlAtFuel extends utils.Adapter {
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, { val: Date.now(), ack: true });
+							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
+								val: Date.now(),
+								ack: true
+							});
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
 							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
@@ -356,7 +372,6 @@ class EControlAtFuel extends utils.Adapter {
 			}
 
 
-
 		} catch (error) {
 			this.log.warn(`[writeState]: ${error.message}, stack: ${error.stack}`);
 		}
@@ -365,7 +380,6 @@ class EControlAtFuel extends utils.Adapter {
 	async create_States() {
 
 		try {
-
 			for (const i in this.config.address) {
 
 				for (const c in apiResult[i].data) {
@@ -374,220 +388,71 @@ class EControlAtFuel extends utils.Adapter {
 
 						const folder = [`cheapest`, `most_expensive`, `station_${[c]}`];
 
-						for (const v in folder) {
 
-							for (const d in weekDay) {
-
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours.${weekDay[d]}`, {
-									type: 'state',
-									common: {
-										name: `${weekDay[d]}`,
-										type: 'string',
-										role: 'dayofweek',
-										read: true,
-										write: false
-									},
-									native: {},
-								});
-
-							}
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.name`, {
-								type: 'state',
-								common: {
-									name: `station Name`,
-									type: 'string',
-									role: 'text',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.address`, {
-								type: 'state',
-								common: {
-									name: `station Address`,
-									type: 'string',
-									role: 'text',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.city`, {
-								type: 'state',
-								common: {
-									name: `station city`,
-									type: 'string',
-									role: 'text',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.postalCode`, {
-								type: 'state',
-								common: {
-									name: `station PostalCode`,
-									type: 'string',
-									role: 'text',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.open`, {
-								type: 'state',
-								common: {
-									name: `station Open`,
-									type: 'boolean',
-									role: 'state',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.distance`, {
-								type: 'state',
-								common: {
-									name: `station Distance`,
-									type: 'number',
-									role: 'value.distance',
-									unit: 'km',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.fuelType`, {
-								type: 'state',
-								common: {
-									name: `station fuelType`,
-									type: 'string',
-									role: 'text',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.price`, {
-								type: 'state',
-								common: {
-									name: `station price`,
-									type: 'number',
-									role: 'value',
-									unit: '€',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.priceshort`, {
-								type: 'state',
-								common: {
-									name: `station priceshort`,
-									type: 'number',
-									role: 'value',
-									unit: '€',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.price3rd`, {
-								type: 'state',
-								common: {
-									name: `station price3rd`,
-									type: 'number',
-									role: 'value',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.combined`, {
-								type: 'state',
-								common: {
-									name: `station combined`,
-									type: 'string',
-									role: 'html',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.lastRequest`, {
-								type: 'state',
-								common: {
-									name: `last request to E-Control`,
-									type: 'number',
-									role: 'value.time',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-							for (const f in format) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo_${format[f]}`, {
-									type: 'state',
-									common: {
-										name: `station logo ${format[f]}`,
-										type: 'string',
-										role: 'url.icon',
-										read: true,
-										write: false
-									},
-									native: {},
-								});
-							}
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.logo_Nr`, {
-								type: 'state',
-								common: {
-									name: `station logo NR`,
-									type: 'number',
-									role: 'value',
-									read: true,
-									write: false
-								},
-								native: {},
-							});
-
-						}
-						await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.jsonTable`, {
-							type: 'state',
+						await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}`, {
+							type: 'channel',
 							common: {
-								name: `Json table`,
-								type: 'string',
-								role: 'json',
-								read: true,
-								write: false
+								name: `${cityName[i]} for ${fuel[i]}`
 							},
-							native: {},
+							native: {}
 						});
 
+						for (const v in folder) {
 
+							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours`, {
+								type: 'channel',
+								common: {
+									name: `openingHours`
+								},
+								native: {}
+							});
+
+							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices`, {
+								type: 'channel',
+								common: {
+									name: `prices`
+								},
+								native: {}
+							});
+
+							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}`, {
+								type: 'channel',
+								common: {
+									name: `${folder[v]}`
+								},
+								native: {}
+							});
+
+							for (const obj in object_openingHours) {
+								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours.${obj}`, object_openingHours[obj]);
+							}
+
+							for (const obj in object_prices) {
+								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.${obj}`, object_prices[obj]);
+							}
+
+							for (const obj in object_jsonTable) {
+								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${obj}`, object_jsonTable[obj]);
+							}
+							for (const obj in object_main) {
+								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.${obj}`, object_main[obj]);
+							}
+							for (const obj in object_logo) {
+								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.${obj}`, object_logo[obj]);
+							}
+
+						}
 					}
 				}
 			}
+
+
 		} catch (error) {
 			this.log.error(`[create_States]: ${error.message}, stack: ${error.stack}`);
 		}
 	}
 
-	// Decimal point calculation and separation function 
+	// Decimal point calculation and separation function
 	async cutPrice(fuel_price) {
 
 		fuel_price = parseFloat(fuel_price);
@@ -643,7 +508,8 @@ if (module.parent) {
 	 * @param {Partial<utils.AdapterOptions>} [options={}]
 	 */
 	module.exports = (options) => new EControlAtFuel(options);
-} else {
+}
+else {
 	// otherwise start the instance directly
 	new EControlAtFuel();
 }

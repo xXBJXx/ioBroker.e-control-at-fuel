@@ -1,195 +1,207 @@
 {
-	"common": {
-		"name": "e-control-at-fuel",
-		"version": "0.1.4",
-		"news": {
-			"0.1.4": {
-				"en": "Dependency updates performed",
-				"de": "Abhängigkeitsaktualisierungen durchgeführt",
-				"ru": "Обновления зависимостей выполнены",
-				"pt": "Atualizações de dependência realizadas",
-				"nl": "Afhankelijkheidsupdates uitgevoerd",
-				"fr": "Mises à jour des dépendances effectuées",
-				"it": "Aggiornamenti delle dipendenze eseguiti",
-				"es": "Actualizaciones de dependencia realizadas",
-				"pl": "Wykonano aktualizacje zależności",
-				"zh-cn": "进行依赖更新"
-			  },
-			"0.1.3": {
-				"en": "Adjusted the code and fixed some bugs",
-				"de": "Der Code wurde angepasst und einige Fehler behoben",
-				"ru": "Скорректировали код и исправили некоторые ошибки",
-				"pt": "Ajustou o código e corrigiu alguns bugs",
-				"nl": "De code aangepast en enkele bugs verholpen",
-				"fr": "Ajustement du code et correction de quelques bugs",
-				"it": "Modificato il codice e risolto alcuni bug",
-				"es": "Ajustó el código y corrigió algunos errores.",
-				"pl": "Poprawiono kod i naprawiono kilka błędów",
-				"zh-cn": "调整了代码并修复了一些错误"
-			  },
-			"0.1.2": {
-				"en": "code adjustment carried out",
-				"de": "Code-Anpassung durchgeführt",
-				"ru": "выполняется корректировка кода",
-				"pt": "ajuste de código realizado",
-				"nl": "code aanpassing uitgevoerd",
-				"fr": "ajustement du code effectué",
-				"it": "regolazione del codice effettuata",
-				"es": "ajuste de código realizado",
-				"pl": "przeprowadzona korekta kodu",
-				"zh-cn": "进行代码调整"
-			  },
-			"0.1.1": {
-				"en": "Code optimization carried out and README adapted",
-				"de": "Code Optimierung durchgeführt und README angepasst",
-				"ru": "Проведена оптимизация кода и адаптирована README",
-				"pt": "Otimização de código realizada e README adaptado",
-				"nl": "Code-optimalisatie uitgevoerd en README aangepast",
-				"fr": "Optimisation du code réalisée et README adaptée",
-				"it": "Ottimizzazione del codice effettuata e README adattato",
-				"es": "Optimización de código realizada y README adaptado",
-				"pl": "Przeprowadzono optymalizację kodu i dostosowano README",
-				"zh-cn": "进行代码优化并采用README"
-			  },
-			  "0.1.0": {
-				"en": "Latest Release",
-				"de": "Neueste Erscheinung",
-				"ru": "Последний релиз",
-				"pt": "Último lançamento",
-				"nl": "Laatste release",
-				"fr": "Dernière version",
-				"it": "Ultima uscita",
-				"es": "Último lanzamiento",
-				"pl": "Najnowsze wydanie",
-				"zh-cn": "最新发布的"
-			  },
-			"0.0.8": {
-				"en": "added new stations + logos\n new state prices.combined",
-				"de": "neue Stationen + Logos hinzugefügt\n neue staatliche Preise.kombiniert",
-				"ru": "добавлены новые станции + логотипы\n новые государственные цены",
-				"pt": "adicionadas novas estações + logotipos\n novo estado prices.combined",
-				"nl": "nieuwe stations + logo's toegevoegd\n nieuwe staat prijzen. gecombineerd",
-				"fr": "ajout de nouvelles stations + logos\n nouveaux prix d'État.combined",
-				"it": "aggiunte nuove stazioni + loghi\n nuovi prezzi statali associati",
-				"es": "Añadidas nuevas estaciones + logos\n nuevos precios estatales combinados",
-				"pl": "dodano nowe stacje + logo\n ceny nowego stanu.com połączone",
-				"zh-cn": "添加了新电台和徽标\n 新州prices.combined"
-			  },
-			"0.0.7": {
-				"en": "Fixed name bug and added new stations + logos",
-				"de": "Namensfehler behoben und neue Stationen + Logos hinzugefügt",
-				"ru": "Исправлена ошибка с именем и добавлены новые станции + логотипы",
-				"pt": "Corrigido o erro do nome e adicionava novas estações + logotipos",
-				"nl": "Naamfout opgelost en nieuwe stations + logo's toegevoegd",
-				"fr": "Correction d'un bug de nom et ajout de nouvelles stations + logos",
-				"it": "Corretto errore nel nome e aggiunta di nuove stazioni + loghi",
-				"es": "Se corrigió el error del nombre y se agregaron nuevas estaciones + logotipos",
-				"pl": "Naprawiono błąd nazwy i dodano nowe stacje + logo",
-				"zh-cn": "修复了名称错误并添加了新的电台和徽标"
-			  },
-			"0.0.6": {
-				"en": "added Gas station logos in svg and png format",
-				"de": "Tankstellenlogos im SVG- und PNG-Format hinzugefügt",
-				"ru": "добавлены логотипы АЗС в форматах svg и png",
-				"pt": "logotipos de postos de gasolina adicionados nos formatos svg e png",
-				"nl": "Benzinestationlogo's toegevoegd in svg- en png-formaat",
-				"fr": "logos de station-service ajoutés au format svg et png",
-				"it": "aggiunti i loghi delle stazioni di servizio in formato svg e png",
-				"es": "logotipos de gasolineras añadidos en formato svg y png",
-				"pl": "dodano logo stacji benzynowej w formacie svg i png",
-				"zh-cn": "以svg和png格式添加了加油站徽标"
-			  },
-			"0.0.5": {
-				"en": "Json table adjusted and all stations in one Dp",
-				"de": "Json Tabelle angepasst und alle Stationen in einem Dp",
-				"ru": "Таблица JSON настроена и все станции в одном Dp",
-				"pt": "Tabela Json ajustada e todas as estações em um Dp",
-				"nl": "Json tafel aangepast en alle stations in één Dp",
-				"fr": "Table Json ajustée et toutes les stations dans un Dp",
-				"it": "Tabella Json modificata e tutte le stazioni in un Dp",
-				"es": "Mesa Json ajustada y todas las estaciones en una Dp",
-				"pl": "Tabela Jsona dostosowana i wszystkie stacje w jednym Dp",
-				"zh-cn": "调整了Json表并将所有电台合计为一个Dp"
-			  },
-			"0.0.4": {
-				"en": "cheapest / most expensive gas station\n added DP output as JSON\n added Gas station logos",
-				"de": "billigste / teuerste Tankstelle\n DP-Ausgabe als JSON hinzugefügt\n Tankstellenlogos hinzugefügt",
-				"ru": "самая дешевая / самая дорогая заправка\n добавлен вывод DP в виде JSON\n добавлены логотипы АЗС",
-				"pt": "posto de gasolina mais barato / mais caro\n adicionada saída DP como JSON\n logotipos de postos de gasolina adicionados",
-				"nl": "goedkoopste / duurste tankstation\n DP-uitvoer toegevoegd als JSON\n Logo's tankstation toegevoegd",
-				"fr": "station d'essence la moins chère / la plus chère\n sortie DP ajoutée en JSON\n logos de station-service ajoutés",
-				"it": "distributore di benzina più economico / più costoso\n aggiunto l'output DP come JSON\n aggiunti i loghi delle stazioni di servizio",
-				"es": "gasolinera más barata / más cara\n salida DP agregada como JSON\n logotipos de gasolineras añadidos",
-				"pl": "najtańsza / najdroższa stacja benzynowa\n dodano wyjście DP jako JSON\n dodano logo stacji benzynowej",
-				"zh-cn": "最便宜/最昂贵的加油站\n 将DP输出添加为JSON\n 添加了加油站徽标"
-			  },
-			"0.0.3": {
-				"en": "City and fuel type added as a designation",
-				"de": "Stadt und Kraftstoffart als Bezeichnung hinzugefügt",
-				"ru": "Город и тип топлива добавлены в качестве обозначения",
-				"pt": "Cidade e tipo de combustível adicionados como designação",
-				"nl": "Stad en brandstoftype toegevoegd als aanduiding",
-				"fr": "Ville et type de carburant ajoutés comme désignation",
-				"it": "Città e tipo di carburante aggiunti come designazione",
-				"es": "Ciudad y tipo de combustible agregado como designación",
-				"pl": "Dodano miasto i rodzaj paliwa jako oznaczenie",
-				"zh-cn": "添加城市和燃料类型作为名称"
-			  },
-			"0.0.2": {
-				"en": "beta release",
-				"de": "Beta-Version",
-				"ru": "бета-версия",
-				"pt": "versão beta",
-				"nl": "bètaversie",
-				"fr": "version bêta",
-				"it": "versione beta",
-				"es": "lanzamiento beta",
-				"pl": "wersja beta",
-				"zh-cn": "测试版"
-			  },
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"zh-cn": "首次出版"
-			}
-		},
-		"title": "E-Control.at fuel",
-		"titleLang": {
-			"en": "E-Control.at fuel",
-			"de": "E-Control.at Kraftstoff",
-			"ru": "E-Control.at топливо",
-			"pt": "E-Control.at combustível",
-			"nl": "E-Control. Op brandstof",
-			"fr": "E-Control.at fuel",
-			"it": "E-Control.at fuel",
-			"es": "E-Control.at combustible",
-			"pl": "E-Control. Na paliwie",
-			"zh-cn": "燃油电子控制"
-		  },
-		"desc": {
-			"en": "Fuel prices for Austria",
-			"de": "Kraftstoffpreise für Österreich",
-			"ru": "Цены на топливо для Австрии",
-			"pt": "Preços dos combustíveis na Áustria",
-			"nl": "Brandstofprijzen voor Oostenrijk",
-			"fr": "Prix du carburant pour l'Autriche",
-			"it": "Prezzi del carburante per l'Austria",
-			"es": "Precios de combustible para Austria",
-			"pl": "Ceny paliw dla Austrii",
-			"zh-cn": "奥地利的燃油价格"
-		  },
-		"authors": [
-			"xXBJXx <alienware.games@gmail.com>"
-		],
-		"keywords": [
-			"Austria",
+    "common": {
+        "name": "e-control-at-fuel",
+        "version": "0.1.5-0",
+        "news": {
+            "0.1.5-0": {
+                "en": "add GitHub Actions (test and release) and dependabot auto merge\nDependency updates performed\nchange State create",
+                "de": "Fügen Sie GitHub-Aktionen (Test und Release) hinzu und führen Sie die automatische Zusammenführung von Dependabot durch\nAbhängigkeitsaktualisierungen durchgeführt\nStatus ändern erstellen",
+                "ru": "добавить GitHub Actions (тестирование и выпуск) и автоматическое объединение зависимостей\nОбновления зависимостей выполнены\nизменить состояние создать",
+                "pt": "adicionar Ações GitHub (teste e lançamento) e mesclagem automática do dependabot\nAtualizações de dependência realizadas\nalterar estado criar",
+                "nl": "voeg GitHub-acties toe (testen en vrijgeven) en afhankelijk van automatisch samenvoegen\nAfhankelijkheidsupdates uitgevoerd\nchange State maken",
+                "fr": "ajouter des actions GitHub (test et publication) et une fusion automatique dépendante\nMises à jour des dépendances effectuées\nchanger l'état créer",
+                "it": "aggiungere azioni GitHub (test e rilascio) e unione automatica dependabot\nAggiornamenti delle dipendenze eseguiti\ncambia stato crea",
+                "es": "agregar acciones de GitHub (prueba y lanzamiento) y fusión automática de dependientes\nActualizaciones de dependencia realizadas\ncambiar estado crear",
+                "pl": "dodać akcje GitHub (test i wydanie) oraz automatyczne scalanie zależności\nWykonano aktualizacje zależności\nZmień stan utwórz",
+                "zh-cn": "添加GitHub Actions（测试和发布）和Dependabot自动合并\n进行依赖更新\n改变状态创造"
+            },
+            "0.1.4": {
+                "en": "Dependency updates performed",
+                "de": "Abhängigkeitsaktualisierungen durchgeführt",
+                "ru": "Обновления зависимостей выполнены",
+                "pt": "Atualizações de dependência realizadas",
+                "nl": "Afhankelijkheidsupdates uitgevoerd",
+                "fr": "Mises à jour des dépendances effectuées",
+                "it": "Aggiornamenti delle dipendenze eseguiti",
+                "es": "Actualizaciones de dependencia realizadas",
+                "pl": "Wykonano aktualizacje zależności",
+                "zh-cn": "进行依赖更新"
+            },
+            "0.1.3": {
+                "en": "Adjusted the code and fixed some bugs",
+                "de": "Der Code wurde angepasst und einige Fehler behoben",
+                "ru": "Скорректировали код и исправили некоторые ошибки",
+                "pt": "Ajustou o código e corrigiu alguns bugs",
+                "nl": "De code aangepast en enkele bugs verholpen",
+                "fr": "Ajustement du code et correction de quelques bugs",
+                "it": "Modificato il codice e risolto alcuni bug",
+                "es": "Ajustó el código y corrigió algunos errores.",
+                "pl": "Poprawiono kod i naprawiono kilka błędów",
+                "zh-cn": "调整了代码并修复了一些错误"
+            },
+            "0.1.2": {
+                "en": "code adjustment carried out",
+                "de": "Code-Anpassung durchgeführt",
+                "ru": "выполняется корректировка кода",
+                "pt": "ajuste de código realizado",
+                "nl": "code aanpassing uitgevoerd",
+                "fr": "ajustement du code effectué",
+                "it": "regolazione del codice effettuata",
+                "es": "ajuste de código realizado",
+                "pl": "przeprowadzona korekta kodu",
+                "zh-cn": "进行代码调整"
+            },
+            "0.1.1": {
+                "en": "Code optimization carried out and README adapted",
+                "de": "Code Optimierung durchgeführt und README angepasst",
+                "ru": "Проведена оптимизация кода и адаптирована README",
+                "pt": "Otimização de código realizada e README adaptado",
+                "nl": "Code-optimalisatie uitgevoerd en README aangepast",
+                "fr": "Optimisation du code réalisée et README adaptée",
+                "it": "Ottimizzazione del codice effettuata e README adattato",
+                "es": "Optimización de código realizada y README adaptado",
+                "pl": "Przeprowadzono optymalizację kodu i dostosowano README",
+                "zh-cn": "进行代码优化并采用README"
+            },
+            "0.1.0": {
+                "en": "Latest Release",
+                "de": "Neueste Erscheinung",
+                "ru": "Последний релиз",
+                "pt": "Último lançamento",
+                "nl": "Laatste release",
+                "fr": "Dernière version",
+                "it": "Ultima uscita",
+                "es": "Último lanzamiento",
+                "pl": "Najnowsze wydanie",
+                "zh-cn": "最新发布的"
+            },
+            "0.0.8": {
+                "en": "added new stations + logos\n new state prices.combined",
+                "de": "neue Stationen + Logos hinzugefügt\n neue staatliche Preise.kombiniert",
+                "ru": "добавлены новые станции + логотипы\n новые государственные цены",
+                "pt": "adicionadas novas estações + logotipos\n novo estado prices.combined",
+                "nl": "nieuwe stations + logo's toegevoegd\n nieuwe staat prijzen. gecombineerd",
+                "fr": "ajout de nouvelles stations + logos\n nouveaux prix d'État.combined",
+                "it": "aggiunte nuove stazioni + loghi\n nuovi prezzi statali associati",
+                "es": "Añadidas nuevas estaciones + logos\n nuevos precios estatales combinados",
+                "pl": "dodano nowe stacje + logo\n ceny nowego stanu.com połączone",
+                "zh-cn": "添加了新电台和徽标\n 新州prices.combined"
+            },
+            "0.0.7": {
+                "en": "Fixed name bug and added new stations + logos",
+                "de": "Namensfehler behoben und neue Stationen + Logos hinzugefügt",
+                "ru": "Исправлена ошибка с именем и добавлены новые станции + логотипы",
+                "pt": "Corrigido o erro do nome e adicionava novas estações + logotipos",
+                "nl": "Naamfout opgelost en nieuwe stations + logo's toegevoegd",
+                "fr": "Correction d'un bug de nom et ajout de nouvelles stations + logos",
+                "it": "Corretto errore nel nome e aggiunta di nuove stazioni + loghi",
+                "es": "Se corrigió el error del nombre y se agregaron nuevas estaciones + logotipos",
+                "pl": "Naprawiono błąd nazwy i dodano nowe stacje + logo",
+                "zh-cn": "修复了名称错误并添加了新的电台和徽标"
+            },
+            "0.0.6": {
+                "en": "added Gas station logos in svg and png format",
+                "de": "Tankstellenlogos im SVG- und PNG-Format hinzugefügt",
+                "ru": "добавлены логотипы АЗС в форматах svg и png",
+                "pt": "logotipos de postos de gasolina adicionados nos formatos svg e png",
+                "nl": "Benzinestationlogo's toegevoegd in svg- en png-formaat",
+                "fr": "logos de station-service ajoutés au format svg et png",
+                "it": "aggiunti i loghi delle stazioni di servizio in formato svg e png",
+                "es": "logotipos de gasolineras añadidos en formato svg y png",
+                "pl": "dodano logo stacji benzynowej w formacie svg i png",
+                "zh-cn": "以svg和png格式添加了加油站徽标"
+            },
+            "0.0.5": {
+                "en": "Json table adjusted and all stations in one Dp",
+                "de": "Json Tabelle angepasst und alle Stationen in einem Dp",
+                "ru": "Таблица JSON настроена и все станции в одном Dp",
+                "pt": "Tabela Json ajustada e todas as estações em um Dp",
+                "nl": "Json tafel aangepast en alle stations in één Dp",
+                "fr": "Table Json ajustée et toutes les stations dans un Dp",
+                "it": "Tabella Json modificata e tutte le stazioni in un Dp",
+                "es": "Mesa Json ajustada y todas las estaciones en una Dp",
+                "pl": "Tabela Jsona dostosowana i wszystkie stacje w jednym Dp",
+                "zh-cn": "调整了Json表并将所有电台合计为一个Dp"
+            },
+            "0.0.4": {
+                "en": "cheapest / most expensive gas station\n added DP output as JSON\n added Gas station logos",
+                "de": "billigste / teuerste Tankstelle\n DP-Ausgabe als JSON hinzugefügt\n Tankstellenlogos hinzugefügt",
+                "ru": "самая дешевая / самая дорогая заправка\n добавлен вывод DP в виде JSON\n добавлены логотипы АЗС",
+                "pt": "posto de gasolina mais barato / mais caro\n adicionada saída DP como JSON\n logotipos de postos de gasolina adicionados",
+                "nl": "goedkoopste / duurste tankstation\n DP-uitvoer toegevoegd als JSON\n Logo's tankstation toegevoegd",
+                "fr": "station d'essence la moins chère / la plus chère\n sortie DP ajoutée en JSON\n logos de station-service ajoutés",
+                "it": "distributore di benzina più economico / più costoso\n aggiunto l'output DP come JSON\n aggiunti i loghi delle stazioni di servizio",
+                "es": "gasolinera más barata / más cara\n salida DP agregada como JSON\n logotipos de gasolineras añadidos",
+                "pl": "najtańsza / najdroższa stacja benzynowa\n dodano wyjście DP jako JSON\n dodano logo stacji benzynowej",
+                "zh-cn": "最便宜/最昂贵的加油站\n 将DP输出添加为JSON\n 添加了加油站徽标"
+            },
+            "0.0.3": {
+                "en": "City and fuel type added as a designation",
+                "de": "Stadt und Kraftstoffart als Bezeichnung hinzugefügt",
+                "ru": "Город и тип топлива добавлены в качестве обозначения",
+                "pt": "Cidade e tipo de combustível adicionados como designação",
+                "nl": "Stad en brandstoftype toegevoegd als aanduiding",
+                "fr": "Ville et type de carburant ajoutés comme désignation",
+                "it": "Città e tipo di carburante aggiunti come designazione",
+                "es": "Ciudad y tipo de combustible agregado como designación",
+                "pl": "Dodano miasto i rodzaj paliwa jako oznaczenie",
+                "zh-cn": "添加城市和燃料类型作为名称"
+            },
+            "0.0.2": {
+                "en": "beta release",
+                "de": "Beta-Version",
+                "ru": "бета-версия",
+                "pt": "versão beta",
+                "nl": "bètaversie",
+                "fr": "version bêta",
+                "it": "versione beta",
+                "es": "lanzamiento beta",
+                "pl": "wersja beta",
+                "zh-cn": "测试版"
+            },
+            "0.0.1": {
+                "en": "initial release",
+                "de": "Erstveröffentlichung",
+                "ru": "Начальная версия",
+                "pt": "lançamento inicial",
+                "nl": "Eerste uitgave",
+                "fr": "Première version",
+                "it": "Versione iniziale",
+                "es": "Versión inicial",
+                "pl": "Pierwsze wydanie",
+                "zh-cn": "首次出版"
+            }
+        },
+        "title": "E-Control.at fuel",
+        "titleLang": {
+            "en": "E-Control.at fuel",
+            "de": "E-Control.at Kraftstoff",
+            "ru": "E-Control.at топливо",
+            "pt": "E-Control.at combustível",
+            "nl": "E-Control. Op brandstof",
+            "fr": "E-Control.at fuel",
+            "it": "E-Control.at fuel",
+            "es": "E-Control.at combustible",
+            "pl": "E-Control. Na paliwie",
+            "zh-cn": "燃油电子控制"
+        },
+        "desc": {
+            "en": "Fuel prices for Austria",
+            "de": "Kraftstoffpreise für Österreich",
+            "ru": "Цены на топливо для Австрии",
+            "pt": "Preços dos combustíveis na Áustria",
+            "nl": "Brandstofprijzen voor Oostenrijk",
+            "fr": "Prix du carburant pour l'Autriche",
+            "it": "Prezzi del carburante per l'Austria",
+            "es": "Precios de combustible para Austria",
+            "pl": "Ceny paliw dla Austrii",
+            "zh-cn": "奥地利的燃油价格"
+        },
+        "authors": [
+            "xXBJXx <alienware.games@gmail.com>"
+        ],
+        "keywords": [
+            "Austria",
             "Fuel prices",
             "Spritpreise",
             "Österreich",
@@ -200,59 +212,58 @@
             "Tankstelle",
             "Diesel",
             "Benzin"
-
-		],
-		"license": "MIT",
-		"platform": "Javascript/Node.js",
-		"main": "main.js",
-		"icon": "e-control-at-fuel.png",
-		"enabled": false,
-		"extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.e-control-at-fuel/master/admin/e-control-at-fuel.png",
-		"readme": "https://github.com/xXBJXx/ioBroker.e-control-at-fuel/blob/master/README.md",
-		"loglevel": "info",
-		"mode": "daemon",
-		"type": "misc-data",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"materialize": true,
-		"plugins": {
-			"sentry": {
-			  "dsn": "https://b7e372719d254bbe9121d122067ea3ac@o384969.ingest.sentry.io/5225125"
-			}
-		  },
-		"dependencies": [
-			{
-				"js-controller": ">=2.0.0"
-			}
-		]
-	},
-	"native": {
-		"address": [],
-		"interval": 15
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "Device or service connected",
-				"type": "boolean",
-				"read": true,
-				"write": false,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+        ],
+        "license": "MIT",
+        "platform": "Javascript/Node.js",
+        "main": "main.js",
+        "icon": "e-control-at-fuel.png",
+        "enabled": false,
+        "extIcon": "https://raw.githubusercontent.com/xXBJXx/ioBroker.e-control-at-fuel/master/admin/e-control-at-fuel.png",
+        "readme": "https://github.com/xXBJXx/ioBroker.e-control-at-fuel/blob/master/README.md",
+        "loglevel": "info",
+        "mode": "daemon",
+        "type": "misc-data",
+        "compact": true,
+        "connectionType": "cloud",
+        "dataSource": "poll",
+        "materialize": true,
+        "plugins": {
+            "sentry": {
+                "dsn": "https://b7e372719d254bbe9121d122067ea3ac@o384969.ingest.sentry.io/5225125"
+            }
+        },
+        "dependencies": [
+            {
+                "js-controller": ">=2.0.0"
+            }
+        ]
+    },
+    "native": {
+        "address": [],
+        "interval": 15
+    },
+    "objects": [],
+    "instanceObjects": [
+        {
+            "_id": "info",
+            "type": "channel",
+            "common": {
+                "name": "Information"
+            },
+            "native": {}
+        },
+        {
+            "_id": "info.connection",
+            "type": "state",
+            "common": {
+                "role": "indicator.connected",
+                "name": "Device or service connected",
+                "type": "boolean",
+                "read": true,
+                "write": false,
+                "def": false
+            },
+            "native": {}
+        }
+    ]
 }

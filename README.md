@@ -74,7 +74,7 @@ ____________________________
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
 
-### __WORK IN PROGRESS__
+### 0.1.5-0 (2020-11-01)
 * (xXBJXx) add GitHub Actions (test and release) and dependabot auto merge
 * (xXBJXx) Dependency updates performed
 * (xXBJXx) change State create 

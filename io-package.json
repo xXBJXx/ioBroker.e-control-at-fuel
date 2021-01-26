@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "e-control-at-fuel",
-        "version": "0.1.6-beta.0",
+        "version": "0.1.6-beta.1",
         "news": {
+            "0.1.6-beta.1": {
+                "en": "fixed test-and-release.yml",
+                "de": "feste test-and-release.yml",
+                "ru": "исправлен test-and-release.yml",
+                "pt": "test-and-release.yml corrigido",
+                "nl": "vaste test-and-release.yml",
+                "fr": "corrigé test-and-release.yml",
+                "it": "corretto test-and-release.yml",
+                "es": "fijo test-and-release.yml",
+                "pl": "naprawiono test-and-release.yml",
+                "zh-cn": "固定的测试和发布"
+            },
             "0.1.6-beta.0": {
                 "en": "config page style customized\nMost expensive dp removed\nCode Optimization\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\ntest-and-release.yml updated\nremoved travis",
                 "de": "Konfigurationsseitenstil angepasst\nDas teuerste dp entfernt\nCode-Optimierung\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\ntest-and-release.yml aktualisiert\nTravis entfernt",

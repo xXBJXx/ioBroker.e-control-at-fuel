@@ -48,7 +48,7 @@ is included. This allows Sentry to group errors and show how many unique users a
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
-### __WORK IN PROGRESS__
+### 0.1.6-beta.1 (2021-01-27)
 * (xXBJXx) fixed test-and-release.yml 
 
 ### 0.1.6-beta.0 (2021-01-26)

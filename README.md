@@ -6,7 +6,6 @@
 [![Downloads](https://img.shields.io/npm/dm/iobroker.e-control-at-fuel.svg?logo=npm)](https://www.npmjs.com/package/iobroker.e-control-at-fuel)
 
 ![Installations](http://iobroker.live/badges/e-control-at-fuel-installed.svg)
-![Stable](http://iobroker.live/badges/e-control-at-fuel-stable.svg) 
 [![Dependency Status](https://img.shields.io/david/xXBJXx/iobroker.e-control-at-fuel.svg)](https://david-dm.org/xXBJXx/iobroker.e-control-at-fuel)
 
 [![NPM](https://nodei.co/npm/iobroker.e-control-at-fuel.png?downloads=true)](https://nodei.co/npm/iobroker.e-control-at-fuel/)
@@ -17,56 +16,35 @@
 
 ### Fuel prices for Austria
 
-[Forumbeitrag](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
+[Forum Post](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
-**Dieser Adapter verwendet Sentry-Bibliotheken, um Ausnahmen und Codefehler automatisch an die Entwickler zu melden.** 
-Weitere Details und Informationen zum Deaktivieren der Fehlerberichterstattung finden Sie in der 
-[Sentry-Plugin-Dokumentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) ! Sentry Reporting wird ab js-controller 3.0 verwendet.
+This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer. 
+More details see below!
 
-## Der Adapter liest die Spritpreise von E-Control.at aus:
+## The adapter reads the fuel prices from E-Control.at:
 
+Auf der config Seite muss man nur den Intervall **(die kleinste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen
+**https://www.latlong.net/** dann wählt man nur noch aus welchem Sprit man will und fertig.
 ![config](admin/config.png)
 
-Auf der config Seite muss man nur den Intervall **(die kleineste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen **https://www.latlong.net/** dann wählt man nur noch aus welchem Sprit man will und fertig.
-sobald der Adapter startet wird ein Ordner für jede spalte, die auf der config Seite angelegt wurde, ein Ordner mit dem Stadtnamen und der Sprit Art z.B. **rosenheim_diesel** angelegt und in diese werden dann die Tankstellen Ordner angelegt die Anzahl hängt von den Tankstellen ab die ihre preis übermitteln des weiteren werden 2 Ordner angelegt die die billigsten und den teuerste Tankstellen angelegt und eine JSON Tabelle für alle Tankstellen die im Ordner angelegt wurden.
+On the config page you only have to set the interval **(the smallest adjustable time is 10 min)** and enter the latitude and longitude which you can look up here
+**https://www.latlong.net/** then you only have to choose which fuel you want, and you are done.
 
-![config](admin/objects.png)
+As soon as the adapter starts, for each city name and the fuel type that was specified on the config page,
+a folder is created e.g. **rosenheim_diesel** and in this folder the gas station folders are created the number
+depends on the gas stations, which transmit their prices it is created still 1 folder the most favorable gas stations,
+and a JSON table for all gas stations, which were created in the folder.
 
-Der Preis ist in 3 verschiedene Angaben geteilt einmal der normale preis z.B. **0.962€** beim 2ten wurde die **2** entfernt **0.96€** bei dieser Variante kann man mit Hilfe von CSS und Bindings in der vis die entfernte **2** in klein anzeigen lasen z.B. so **0.96²€** und der 3te ist die entfernte **2**.
-der state combined ist ein html code, der den priceshort und price3rd verbindet zu z.B. 0.93³€ dieser kann in der vis in html Widget genutzt werden.
+A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/e-control-at-fuel/description.html)
 
-![config](admin/price.png)
+## What is Sentry.io and what is reported to the servers of that company?
 
-![config](admin/html-widget.png)
+Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is implemented in this adapter.
 
-Ich empfehle damit Bindings zu arbeiten so z.B. **{e-control-at-fuel.0.radstadt_CNG.cheapest.prices.combined}** der Wert wird dann automatisch aktualisiert
-dem html wird eine CSS class mitgegeben hier noch die passende CSS:
+When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is submitted to Sentry. When you 
+allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any additional infos about you, email name or such) 
+is included. This allows Sentry to group errors and show how many unique users are affected by such an error. All of this helps me to provide error free adapters that basically never crashs.
 
-```
-
-.station_open {
-    color: blue;
-}
-
-.station_closed {
-    color: red !important; /* !important kann ggf. weggelassen werden */
-}
-
-/* € sign */
-.station_combined_euro {
-    font-family: Times;
-    font-size: 80%;
-}
-
-```
-
-_____________________
-
-## To-Do
-
-* [ ] Tankstellen Logos
-
-____________________________
 
 ## Changelog
 <!--
@@ -74,74 +52,68 @@ ____________________________
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
 
+### __WORK IN PROGRESS__
+* (xXBJXx) config page style customized
+* (xXBJXx) Most expensive dp removed
+* (xXBJXx) Code Optimization
+* (xXBJXx) Dependency updates
+* (xXBJXx) README revised and added Documentation link and LICENSE updated
+* (xXBJXx) test-and-release.yml updated
+* (xXBJXx) removed travis
+
 ### 0.1.5-0 (2020-11-01)
 * (xXBJXx) add GitHub Actions (test and release) and dependabot auto merge
 * (xXBJXx) Dependency updates performed
 * (xXBJXx) change State create 
 
 ### 0.1.4
-
 * (xXBJXx) Dependency updates performed
 
 ### 0.1.3
-
 * (xXBJXx) Adjusted the code and fixed some bugs
 * (xXBJXx) Dependency updates performed
 
 ### 0.1.2
-
 * (xXBJXx) code adjustment carried out
 
 ### 0.1.1
-
 * (xXBJXx) Code optimization carried out and README adapted
 
 ### 0.1.0
-
 * (xXBJXx) Latest Release
 
 ### 0.0.8
-
 * (xXBJXx) added new stations + logos
 * (xXBJXx) new state prices.combined
 
 ### 0.0.7
-
 * (xXBJXx) fixed name bug and added new stations + logos
 
 ### 0.0.6
-
 * (xXBJXx) added Gas station logos in svg and png format
 
 ### 0.0.5
-
 * (xXBJXx) Json table adjusted and all stations in one Dp
 
 ### 0.0.4
-
 * (xXBJXx) cheapest / most expensive gas station
-
 * (xXBJXx) Added DP output as JSON
-
 * (xXBJXx) added Gas station logos
 
 ### 0.0.3
-
 * (xXBJXx) City and fuel type added as a designation
 
 ### 0.0.2
-
 * (xXBJXx) beta release
 
 ### 0.0.1
-
 * (xXBJXx) initial release
 
 ## License
 
 MIT License
 
-Copyright (c) 2020 xXBJXx
+Copyright (c) 2021 xXBJXx
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

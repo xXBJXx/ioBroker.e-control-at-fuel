@@ -24,7 +24,7 @@ let requestTimeout = null;
 const apiUrl = [];
 const cityName = [];
 const fuel = [];
-const apiResult = [];
+// const apiResult = [];
 const weekDay = [`Montag`, `Dienstag`, `Mittwoch`, `Donnerstag`, `Feiertag`, `Samstag`, `Sonntag`, `Freitag`];
 const format = [`svg`, `png`];
 
@@ -61,19 +61,13 @@ class EControlAtFuel extends utils.Adapter {
 		for (const i in this.config.address) {
 			// @ts-ignore
 			cityName[i] = await this.replaceFunction(this.config.address[i].city);
-			// console.log(`cityName ${cityName}`);
 		}
-
-
 		await this.api();
 		await this.request();
-
-
 	}
 
 	async api() {
 		try {
-
 			for (const i in this.config.address) {
 				// @ts-ignore
 				const latitude = this.config.address[i].latitude;
@@ -83,28 +77,18 @@ class EControlAtFuel extends utils.Adapter {
 				const fuelType = this.config.address[i].fuelType;
 
 				switch (fuelType) {
-
 					case 'GAS':
 						fuel[i] = 'CNG';
-						// console.log(fuel[i]);
 						break;
-
 					case 'DIE':
 						fuel[i] = 'diesel';
-						// console.log(fuel[i]);
 						break;
-
 					case 'SUP':
 						fuel[i] = 'super_95';
-						// console.log(fuel[i]);
 						break;
-
 					default:
 				}
-
 				apiUrl[i] = `https://api.e-control.at/sprit/1.0/search/gas-stations/by-address?latitude=${latitude}&longitude=${longitude}&fuelType=${fuelType}&includeClosed=true`;
-
-
 			}
 		} catch (error) {
 			this.log.error(`[api construction]: ${error.message}, stack: ${error.stack}`);
@@ -114,28 +98,30 @@ class EControlAtFuel extends utils.Adapter {
 	async request() {
 
 		for (const i in this.config.address) {
-
 			try {
-
 				// Try to reach API and receive data
-				apiResult[i] = await axios.get(apiUrl[i]);
+				const apiResult = await axios.get(apiUrl[i]);
 
-
+				await this.create_States(apiResult, parseInt(i));
+				await this.writeState(apiResult, parseInt(i));
 			} catch (error) {
 				this.log.error(`[request] Unable to contact: ${error} | ${error}`);
-
 			}
 		}
-		await this.create_States();
-		await this.writeState();
+
 		this.setState('info.connection', true, true);
 		requestTimeout = setTimeout(async () => {
-
 			await this.request();
 		}, timer * 60000);
 	}
 
-	async writeState() {
+	/**
+	 * here the values are written into the data points
+	 * @param {object} apiResult	// query the object from the api
+	 * @param {number} index		// number of the device
+	 * @return {Promise<void>}
+	 */
+	async writeState(apiResult, index) {
 		try {
 			const openingHours = [];
 			const stationAddress = [];
@@ -148,313 +134,304 @@ class EControlAtFuel extends utils.Adapter {
 			const stationFuelType = [];
 			const open = [];
 
-			for (const i in this.config.address) {
-
-				let number_of_station = -1;
-				for (const c in apiResult[i].data) {
-					if (apiResult[i].data[c].prices[0]) {
-						number_of_station = number_of_station + 1;
-					}
+			let number_of_station = -1;
+			for (const c in apiResult.data) {
+				if (apiResult.data[c].prices[0]) {
+					number_of_station = number_of_station + 1;
 				}
-				const jsonTable = [];
+			}
+			const jsonTable = [];
 
-				for (const c in apiResult[i].data) {
-					if (apiResult[i].data[c].prices[0]) {
+			for (const c in apiResult.data) {
+				if (apiResult.data[c].prices[0]) {
 
+					const result = apiResult.data[c];
+					stationName[c] = result.name.replace(/,/gi, ' ');
+					const stationLogoName = stationName[c].split(' ');
+					stationAddress[c] = result.location.address;
+					stationCity[c] = result.location.city;
+					stationPostalCode[c] = result.location.postalCode;
+					stationOpen[c] = result.open;
+					stationDistance[c] = Math.round(result.distance * 100) / 100;
 
-						const result = apiResult[i].data[c];
-						stationName[c] = result.name.replace(/,/gi, ' ');
-						const stationLogoName = stationName[c].split(' ');
-						stationAddress[c] = result.location.address;
-						stationCity[c] = result.location.city;
-						stationPostalCode[c] = result.location.postalCode;
-						stationOpen[c] = result.open;
-						stationDistance[c] = Math.round(result.distance * 100) / 100;
+					for (const u in result.openingHours) {
+						openingHours[u] = result.openingHours[u].from + ' to ' + result.openingHours[u].to;
+					}
+					const State_id = [`station_${[c]}.name`, `station_${[c]}.city`, `station_${[c]}.open`, `station_${[c]}.distance`, `station_${[c]}.address`, `station_${[c]}.lastRequest`, `station_${[c]}.prices.price`,
+						`station_${[c]}.postalCode`, `station_${[c]}.prices.fuelType`, `station_${[c]}.prices.price3rd`, `station_${[c]}.prices.priceshort`, `station_${[c]}.prices.combined`, `jsonTable`];
 
-						for (const u in result.openingHours) {
-							openingHours[u] = result.openingHours[u].from + ' to ' + result.openingHours[u].to;
+					const states = [];
+					if (result.prices[0]) {
+						let States_value;
+						const stationPrices = result.prices[0].amount;
+						stationFuelType[c] = result.prices[0].label;
+						prices[c] = await this.cutPrice(stationPrices);
+
+						this.log.debug(`stationPrices: ${stationPrices}`);
+						this.log.debug(`stationFuelType: ${stationFuelType}`);
+						this.log.debug(`prices: ${JSON.stringify(prices[c])}`);
+
+						if (stationOpen[c]) {
+							open[c] = 'open';
+						}
+						else {
+							open[c] = 'closed';
+						}
+						// Json table is created here
+						jsonTable[c] = {
+							'Station Name': stationName[c],
+							'Stadt': stationCity[c],
+							'Address': stationAddress[c],
+							'Preis': (prices[c]).priceshort + ' €',
+							'Fuel_Typ': stationFuelType[c],
+							'Distance': stationDistance[c] + ' km',
+							'Open': open[c]
+						};
+						// All values are written into an array
+						if (stationOpen[c]) {
+							States_value = [`${stationName[c]}`, `${stationCity[c]}`, `${stationOpen[c]}`, `${stationDistance[c]}`, `${stationAddress[c]}`, parseInt(`${Date.now()}`), `${(prices[c]).price}`,
+								`${stationPostalCode[c]}`, `${stationFuelType[c]}`, `${(prices[c]).price3rd}`, `${(prices[c]).priceshort}`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`,
+								`${JSON.stringify(jsonTable)}`];
+						}
+						else {
+							States_value = [`${stationName[c]}`, `${stationCity[c]}`, `${stationOpen[c]}`, `${stationDistance[c]}`, `${stationAddress[c]}`, parseInt(`${Date.now()}`), `${(prices[c]).price}`,
+								`${stationPostalCode[c]}`, `${stationFuelType[c]}`, `${(prices[c]).price3rd}`, `${(prices[c]).priceshort}`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`,
+								`${JSON.stringify(jsonTable)}`];
+						}
+						// push all dp and values into an object ( id: e-control-at-fuel.0.salzburg_super_95.station_0.name , value: AVIA )
+						for (const Key in State_id) {
+							states.push(
+								{
+									'State': `${cityName[index]}_${fuel[index]}.${State_id[Key]}`,
+									'State_value': States_value[Key]
+								}
+							);
+						}
+						// here the cheapest gas station is written into the data points
+						if (c === '0') {
+							const State_id_cheapest = ['cheapest.name', 'cheapest.city', 'cheapest.open', 'cheapest.distance', 'cheapest.address', 'cheapest.lastRequest', 'cheapest.prices.price',
+								'cheapest.postalCode', 'cheapest.prices.fuelType', 'cheapest.prices.price3rd', 'cheapest.prices.priceshort', 'cheapest.prices.combined'];
+							// push all dp and values for cheapest gas station into an object ( id: e-control-at-fuel.0.salzburg_super_95.cheapest.name , value: AVIA )
+							for (const Key in State_id_cheapest) {
+								states.push(
+									{
+										'State': `${cityName[index]}_${fuel[index]}.${State_id_cheapest[Key]}`,
+										'State_value': States_value[Key]
+									}
+								);
+							}
 						}
 
 						if (result.prices[0]) {
-
-							const stationPrices = result.prices[0].amount;
-							stationFuelType[c] = result.prices[0].label;
-							prices[c] = await this.cutPrice(stationPrices);
-
-							this.log.debug(`stationPrices: ${stationPrices}`);
-							this.log.debug(`stationFuelType: ${stationFuelType}`);
-							this.log.debug(`prices: ${JSON.stringify(prices[c])}`);
-
-							if (stationOpen[c]) {
-								open[c] = 'open';
-							}
-							else {
-								open[c] = 'closed';
-							}
-
-							jsonTable[c] = {
-								'Station Name': stationName[c],
-								'Stadt': stationCity[c],
-								'Addresse': stationAddress[c],
-								// @ts-ignore
-								'Preis': (prices[c]).priceshort + ' €',
-								'Fuel_Typ': stationFuelType[c],
-								'Distance': stationDistance[c] + ' km',
-								'Open': open[c]
-							};
-
-
-							// console.debug(`main 1 : c: ${i} / f: ${i} / s: ${c}`);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, `${stationName[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, `${stationCity[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, `${stationOpen[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, `${stationDistance[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, `${stationAddress[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
-								val: Date.now(),
-								ack: true
-							});
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, `${(prices[c]).price}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, `${stationPostalCode[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, `${stationFuelType[c]}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, `${(prices[c]).priceshort}`, true);
-							if (stationOpen[c]) {
-
-								this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-							}
-							else {
-
-								this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-							}
-
-							this.setState(`${cityName[i]}_${fuel[i]}.jsonTable`, `${JSON.stringify(jsonTable)}`, true);
-
-							if (c === '0') {
-
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.name`, `${stationName[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.city`, `${stationCity[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.open`, `${stationOpen[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.distance`, `${stationDistance[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.address`, `${stationAddress[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.lastRequest`, {
-									val: Date.now(),
-									ack: true
-								});
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.price`, `${(prices[c]).price}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.postalCode`, `${stationPostalCode[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.fuelType`, `${stationFuelType[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.priceshort`, `${(prices[c]).priceshort}`, true);
-								if (stationOpen[c]) {
-									this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-								}
-								else {
-									this.setState(`${cityName[i]}_${fuel[i]}.cheapest.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-								}
-							}
-
-							if (c === `${number_of_station}`) {
-
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.name`, `${stationName[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.city`, `${stationCity[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.open`, `${stationOpen[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.distance`, `${stationDistance[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.address`, `${stationAddress[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.lastRequest`, {
-									val: Date.now(),
-									ack: true
-								});
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price`, `${(prices[c]).price}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.postalCode`, `${stationPostalCode[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.fuelType`, `${stationFuelType[c]}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.price3rd`, `${(prices[c]).price3rd}`, true);
-								this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.priceshort`, `${(prices[c]).priceshort}`, true);
-								if (stationOpen[c]) {
-									this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_open"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-								}
-								else {
-									this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.prices.combined`, `<span class="station_closed"> ${(prices[c]).priceshort}<sup style="font-size: 50%"> ${(prices[c]).price3rd} </sup> <span class="station_combined_euro">€</span></span>`, true);
-								}
-							}
-
-							if (result.prices[0]) {  //Cheapest station logo review
-
-								for (const logo in logosName) {
-									this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
-									if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') === logosName[logo]) {
-
-										for (const f in format) {
-
-											this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-											this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, `${logo}`, true);
-											this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: ${logo}`);
-											this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
-
-											if (c === '0') {
-
-												this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-												this.setState(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr`, `${logo}`, true);
-												this.log.debug(`${cityName[i]}_${fuel[i]}.cheapest.logo_Nr: ${logo}`);
-												this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
-											}
-
-											if (c === `${number_of_station}`) {
-
-												this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_${format[f]}`, `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`, true);
-												this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr`, `${logo}`, true);
-												this.log.debug(`${cityName[i]}_${fuel[i]}.most_expensive.logo_Nr: ${logo}`);
-												this.log.debug(`[LOGO] /e-control-at-fuel.admin/logo/${logo}.${format[f]}`);
-
-											}
+							// here are the gas stations logos written in the dp
+							for (const logo in logosName) {
+								this.log.debug(`logosName : ${JSON.stringify(logosName)}`);
+								if (stationLogoName[0].toLowerCase().replace(/-/gi, '_') === logosName[logo]) {
+									// push all Dp and values for the logos into one object
+									for (const f in format) {
+										if (c === '0') {
+											states.push(
+												{
+													'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_${format[f]}`,
+													'State_value': `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`
+												},
+												{
+													'State': `${cityName[index]}_${fuel[index]}.cheapest.logo_${format[f]}`,
+													'State_value': `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`
+												},
+											);
+										}
+										else {
+											states.push(
+												{
+													'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_${format[f]}`,
+													'State_value': `/e-control-at-fuel.admin/logo/${format[f]}/${logo}.${format[f]}`
+												},
+											);
 										}
 									}
+									// here is written the cheapest gas station logo no.
+									if (c === '0') {
+										states.push(
+											{
+												'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_Nr`,
+												'State_value': `${logo}`
+											},
+											{
+												'State': `${cityName[index]}_${fuel[index]}.cheapest.logo_Nr`,
+												'State_value': `${logo}`
+											}
+										);
+									}
+									else {
+										states.push(
+											{
+												'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_Nr`,
+												'State_value': `${logo}`
+											}
+										);
+									}
+								}
+							}
+						}
+						else {
+							// pushes all Dp for the logos where the values are to be deleted into an object
+							const delete_Logo = [];
+							for (const f in format) {
+								delete_Logo.push(
+									{
+										'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_${format[f]}`
+									},
+									{
+										'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.logo_Nr`
+									},
+								);
+							}
+							// Deletes all values in the Dp that stick in the object
+							for (const delete_LogoKey in delete_Logo) {
+								await this.setStateAsync(delete_Logo[delete_LogoKey].State, '', true);
+								this.log.debug(`${delete_Logo[delete_LogoKey].State}: 'station not found'`);
+							}
+						}
+						// push all Dp and values for openingHours into one object
+						for (const d in openingHours) {
+							if (result.prices[0]) {
+								if (c === '0') {
+									states.push(
+										{
+											'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.openingHours.${weekDay[d]}`,
+											'State_value': `${openingHours[d]}`
+										},
+										{
+											'State': `${cityName[index]}_${fuel[index]}.cheapest.openingHours.${weekDay[d]}`,
+											'State_value': `${openingHours[d]}`
+										}
+									);
+								}
+								else {
+									states.push(
+										{
+											'State': `${cityName[index]}_${fuel[index]}.station_${[c]}.openingHours.${weekDay[d]}`,
+											'State_value': `${openingHours[d]}`
+										},
+									);
 								}
 							}
 							else {
-								for (const f in format) {
-
-									this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_${format[f]}`, ``, true);
-									this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr`, ``, true);
-									this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]}.logo_Nr: 'station not found'`);
-
-								}
+								this.setState(`${cityName[index]}_${fuel[index]}.station_${[c]}.openingHours.${weekDay[d]}`, ``, true);
 							}
-
-							for (const d in openingHours) {
-								if (result.prices[0]) {
-
-									this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
-
-									if (c === '0') {
-
-										this.setState(`${cityName[i]}_${fuel[i]}.cheapest.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
-									}
-									if (c === `${number_of_station}`) {
-
-										this.setState(`${cityName[i]}_${fuel[i]}.most_expensive.openingHours.${weekDay[d]}`, `${openingHours[d]}`, true);
-									}
-								}
-								else {
-
-									this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.openingHours.${weekDay[d]}`, ``, true);
-								}
-							}
-
-
-						}
-						else { 	//Empty data points if there is no station
-
-							this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]} station not found`);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.name`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.city`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.open`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.distance`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.address`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.lastRequest`, {
-								val: Date.now(),
-								ack: true
-							});
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.postalCode`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.fuelType`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.price3rd`, ``, true);
-							this.setState(`${cityName[i]}_${fuel[i]}.station_${[c]}.prices.priceshort`, ``, true);
 						}
 					}
-					else {
-						this.log.debug(`${cityName[i]}_${fuel[i]}.station_${[c]} station has no price`);
+					else { 	//Empty data points if there is no station
+						const State_id = [`station_${[c]}.name`, `station_${[c]}.city`, `station_${[c]}.open`, `station_${[c]}.distance`, `station_${[c]}.address`, `station_${[c]}.lastRequest`, `station_${[c]}.prices.price`,
+							`station_${[c]}.postalCode`, `station_${[c]}.prices.fuelType`, `station_${[c]}.prices.price3rd`, `station_${[c]}.prices.priceshort`, `station_${[c]}.prices.combined`];
 
+						// push all Dp where the value should be deleted into an object
+						const delete_State_id = [];
+						delete_State_id.push(
+							{
+								'State': `${cityName[index]}_${fuel[index]}.${State_id}`
+							}
+						);
+						// Deletes all values in the Dp that stick in the object
+						for (const delete_Key in delete_State_id) {
+							await this.setStateAsync(delete_State_id[delete_Key].State, '', true);
+							this.log.debug(`${cityName[index]}_${fuel[index]}.station_${[c]} station not found`);
+						}
+					}
+					// Writes all values from the Object into the Dp
+					for (const stateKey in states) {
+						await this.setStateAsync(states[stateKey].State, states[stateKey].State_value, true);
+						this.log.debug(`${states[stateKey].State}: ${states[stateKey].State_value}`);
 					}
 				}
-
-
+				else {
+					this.log.debug(`${cityName[index]}_${fuel[index]}.station_${[c]} station has no price`);
+				}
 			}
-
-
 		} catch (error) {
 			this.log.warn(`[writeState]: ${error.message}, stack: ${error.stack}`);
 		}
 	}
 
-	async create_States() {
-
+	/**
+	 * here the data points are created (must be executed first)
+	 * @param {object} apiResult	// Query the object from the API
+	 * @param {number} index		// number of the device
+	 * @return {Promise<void>}
+	 */
+	async create_States(apiResult, index) {
 		try {
-			for (const i in this.config.address) {
+			for (const c in apiResult.data) {
+				if (apiResult.data[c].prices[0]) {
+					const folder = [`cheapest`, `station_${[c]}`];
 
-				for (const c in apiResult[i].data) {
+					await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}`, {
+						type: 'channel',
+						common: {
+							name: `${cityName[index]} for ${fuel[index]}`
+						},
+						native: {}
+					});
 
-					if (apiResult[i].data[c].prices[0]) {
+					for (const v in folder) {
 
-						const folder = [`cheapest`, `most_expensive`, `station_${[c]}`];
-
-
-						await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}`, {
+						await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.openingHours`, {
 							type: 'channel',
 							common: {
-								name: `${cityName[i]} for ${fuel[i]}`
+								name: `openingHours`
 							},
 							native: {}
 						});
 
-						for (const v in folder) {
+						await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.prices`, {
+							type: 'channel',
+							common: {
+								name: `prices`
+							},
+							native: {}
+						});
 
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours`, {
-								type: 'channel',
-								common: {
-									name: `openingHours`
-								},
-								native: {}
-							});
+						await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}`, {
+							type: 'channel',
+							common: {
+								name: `${folder[v]}`
+							},
+							native: {}
+						});
 
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices`, {
-								type: 'channel',
-								common: {
-									name: `prices`
-								},
-								native: {}
-							});
-
-							await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}`, {
-								type: 'channel',
-								common: {
-									name: `${folder[v]}`
-								},
-								native: {}
-							});
-
-							for (const obj in object_openingHours) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.openingHours.${obj}`, object_openingHours[obj]);
-							}
-
-							for (const obj in object_prices) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.prices.${obj}`, object_prices[obj]);
-							}
-
-							for (const obj in object_jsonTable) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${obj}`, object_jsonTable[obj]);
-							}
-							for (const obj in object_main) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.${obj}`, object_main[obj]);
-							}
-							for (const obj in object_logo) {
-								await this.setObjectNotExistsAsync(`${cityName[i]}_${fuel[i]}.${folder[v]}.${obj}`, object_logo[obj]);
-							}
-
+						for (const obj in object_openingHours) {
+							await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.openingHours.${obj}`, object_openingHours[obj]);
+						}
+						for (const obj in object_prices) {
+							await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.prices.${obj}`, object_prices[obj]);
+						}
+						for (const obj in object_jsonTable) {
+							await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${obj}`, object_jsonTable[obj]);
+						}
+						for (const obj in object_main) {
+							await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.${obj}`, object_main[obj]);
+						}
+						for (const obj in object_logo) {
+							await this.setObjectNotExistsAsync(`${cityName[index]}_${fuel[index]}.${folder[v]}.${obj}`, object_logo[obj]);
 						}
 					}
 				}
 			}
-
-
 		} catch (error) {
 			this.log.error(`[create_States]: ${error.message}, stack: ${error.stack}`);
 		}
 	}
 
 	// Decimal point calculation and separation function
-	async cutPrice(fuel_price) {
 
+	/**
+	 *
+	 * @param {number|string} fuel_price
+	 * @return {Promise<{price3rd: number, price: number, priceshort: string}>}
+	 */
+	async cutPrice(fuel_price) {
+		// @ts-ignore
 		fuel_price = parseFloat(fuel_price);
 		let temp = fuel_price * 100;   // the price now with one decimal place
 		const temp2 = fuel_price * 1000; // Price without decimal place
@@ -470,6 +447,12 @@ class EControlAtFuel extends utils.Adapter {
 		};
 	}
 
+
+	/**
+	 * replace function for strings
+	 * @param {string} str				// a string
+	 * @return {Promise<string|undefined>}
+	 */
 	async replaceFunction(str) {
 		if (str) {
 			str = str.replace(/ü/g, 'ue');

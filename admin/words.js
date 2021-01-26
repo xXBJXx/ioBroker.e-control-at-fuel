@@ -1,15 +1,29 @@
+// eslint-disable-next-line no-unused-vars
 /*global systemDictionary:true */
 'use strict';
 
+// @ts-ignore
 systemDictionary = {
+	'Latitude and Longitude Finder': {
+		'en': 'Latitude and Longitude Finder',
+		'de': 'Längen- und Breitengradfinder',
+		'ru': 'Поиск широты и долготы',
+		'pt': 'Localizador de latitude e longitude',
+		'nl': 'Breedtegraad- en lengtegraadzoeker',
+		'fr': 'Recherche de latitude et de longitude',
+		'it': 'Rilevatore di latitudine e longitudine',
+		'es': 'Buscador de latitud y longitud',
+		'pl': 'Wyszukiwarka szerokości i długości geograficznej',
+		'zh-cn': '纬度和经度查找器'
+	},
 	'e-control-at-fuel adapter settings': {
 		'en': 'Adapter settings for e-control-at-fuel',
 		'de': 'Adaptereinstellungen für e-control-at-fuel',
 		'ru': 'Настройки адаптера для e-control-at-fuel',
 		'pt': 'Configurações do adaptador para e-control-at-fuel',
 		'nl': 'Adapterinstellingen voor e-control-at-fuel',
-		'fr': "Paramètres d'adaptateur pour e-control-at-fuel",
-		'it': "Impostazioni dell'adattatore per e-control-at-fuel",
+		'fr': 'Paramètres d\'adaptateur pour e-control-at-fuel',
+		'it': 'Impostazioni dell\'adattatore per e-control-at-fuel',
 		'es': 'Ajustes del adaptador para e-control-at-fuel',
 		'pl': 'Ustawienia adaptera dla e-control-at-fuel',
 		'zh-cn': 'e-control-at-fuel的适配器设置'
@@ -32,7 +46,7 @@ systemDictionary = {
 		'ru': 'добавить адрес',
 		'pt': 'adicionar endereço',
 		'nl': 'Voeg adres toe',
-		'fr': "Ajoutez l'adresse",
+		'fr': 'Ajoutez l\'adresse',
 		'it': 'Aggiungi indirizzo',
 		'es': 'añadir dirección',
 		'pl': 'Dodaj adres',
@@ -86,7 +100,6 @@ systemDictionary = {
 		'pl': 'Nazwa miasta',
 		'zh-cn': '城市名称'
 	}
-
 
 
 };

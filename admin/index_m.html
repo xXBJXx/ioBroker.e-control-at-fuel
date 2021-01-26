@@ -18,10 +18,7 @@
 	<script type="text/javascript" src="words.js"></script>
 
 	<script type="text/javascript">
-
-
 		var address = [];
-
 		//the function loadSettings has to exist ...
 		function load(settings, onChange) {
 			if (!settings) return;
@@ -32,10 +29,8 @@
 					$value.prop('checked', settings[key]).on('change', function () {
 						if ($('#auth').prop('checked')) {
 							$('#secure').prop('checked', true);
-
 						}
 						onChange();
-						showHideSettings();
 					});
 				} else {
 					$value.val(settings[key]).on('change', function () {
@@ -45,11 +40,8 @@
 					});
 				}
 			}
-
 			address = settings.address || [];
-
 			onChange(false);
-
 			values2table('address', address, onChange);
 		}
 
@@ -66,65 +58,51 @@
 					obj[$this.attr('id')] = $this.val();
 				}
 			});
-
-
 			obj.address = table2values('address');
-
 			callback(obj);
 		}
     //    screen
 	</script>
-
 </head>
-
 <body>
-
 	<div class="m adapter-container">
-
 		<div class="row">
 			<div class="col s12 m4 l2">
-				<img src="e-control-at-fuel.png" class="logo">
+				<img src="e-control-at-fuel.png" class="logo" alt="e-control-at-fuel.png">
 			</div>
 		</div>
-
 		<!-- Put your content here -->
-
 		<!-- polling interval -->
 		<div class="col s2 input-field">
-			<input type="number" class="value" id="interval" style="width:200px; text-align: center" max="300" min="5"
+			<input type="number" class="value" id="interval" max="300" min="5"
 				value="15" />
-			<label for="interval" class="translate">interval in min</label>
+			<label for="interval" class="translate internal_label">interval in min</label>
 			<div class="row"></div>
-			<span class="translate" style="font-size: 15px; color: red;">do not set less than 10 min</span>
+			<span class="translate warning">do not set less than 10 min</span>
 		</div>
 		<!-- end polling interval -->
-
 		<!-- link -->
-		<span><a href="https://www.latlong.net/" target="_blank" style="font-size: 19px" class="translate help">Find out latitude and longitude here</a></span>
+		<span class="Koord translate">Latitude and Longitude Finder</span><br>
+		<a href="https://www.latlong.net/" target="_blank" class="translate link">Find out latitude and longitude here</a>
 		<!-- end link -->
-
 		<div class="row"></div>
 		<div class="row"></div>
 		<!-- address table -->
-		<div class="col s12" id="address" style="bottom: 30px;">
-			<div class="row center">
+		<div class="col s10" id="address">
+			<div class="row s10 center">
 				<a class="waves-effect waves-light btn table-button-add translate">add address</a>
 			</div>
-			<div class="table-values-div select">
+			<div class="table-values-div">
 				<table class="table-values">
 					<thead>
 						<tr>
-							<th data-name="_index" style="width: 1.1%" class="translate">Nr.</th>
-							<th data-name="city" class="translate" style="width: auto; text-align: center;"
-								data-style="text-align: center">city name</th>
-							<th data-name="latitude" class="translate" style="width: auto; text-align: center;"
-								data-style="text-align: center">Latitude</th>
-							<th data-name="longitude" class="translate" style="width: auto; text-align: center;"
-								data-style="text-align: center">Longitude</th>
-							<th data-name="fuelType" class="translate" style="width: 10%; text-align: center;"
-								data-default="SUP" data-type="select" data-style="text-align: center"
+							<th data-name="_index" data-style="text-align: center" class="translate index">Nr.</th>
+							<th data-name="city" class="translate city" data-style="text-align: center">city name</th>
+							<th data-name="latitude" class="translate lati" data-style="text-align: center">Latitude</th>
+							<th data-name="longitude" class="translate longi" data-style="text-align: center">Longitude</th>
+							<th data-name="fuelType" class="translate fuel" data-default="SUP" data-type="select" data-style="text-align: center"
 								data-options="DIE/Diesel;SUP/Super 95;GAS/CNG">fuel Type</th>
-							<th data-buttons="delete up down" class="translate" style="width: 8%; text-align: center;">delete</th>
+							<th data-buttons="delete" class="translate delete">delete</th>
 						</tr>
 					</thead>
 				</table>
@@ -133,9 +111,6 @@
 		<!-- end address table -->
 	</div>
 	<!-- end Tab with id "tab-address" -->
-
-	</div>
-
 </body>
 
 </html>

@@ -1,10 +1,106 @@
 /* You can delete those if you want. I just found them very helpful */
 * {
-	box-sizing: border-box
+    box-sizing: border-box
 }
+
 .m {
-	/* Don't cut off dropdowns! */
-	overflow: initial;
+    /* Don't cut off dropdowns! */
+    overflow: initial;
 }
 
 /* Add your styles here */
+
+/*logo Section */
+.logo {
+    width: 150px !important;
+}
+
+.help-link {
+    position: absolute !important;
+    right: 10px !important;
+}
+
+/*logo Section End */
+
+/* intervals Section */
+#interval {
+    width: 200px;
+    text-align: center;
+}
+
+.internal_label {
+    color: black !important;
+}
+
+.warning {
+    font-size: 15px !important;
+    color: red !important;
+}
+
+/* intervals Section End*/
+
+/* link Section */
+.Koord {
+    font-size: 2em !important;
+    margin-left: 32px;
+}
+
+.link {
+    font-size: 1.5em;
+    margin-left: 20px;
+}
+
+/* link Section End*/
+
+/* address Section */
+#address {
+    bottom: 30px !important;
+}
+
+/* table button Section */
+.center {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* table button Section End */
+
+/* address Table Section */
+.index {
+    width: 1.1%;
+    background-color: #63b4f4 !important;
+    color: black !important;
+}
+
+.city, .lati, .longi {
+    width: auto;
+    text-align: center !important;
+    background-color: #63b4f4 !important;
+    color: black !important;
+}
+
+.fuel {
+    width: 10%;
+    text-align: center !important;
+    background-color: #63b4f4 !important;
+    color: black !important;
+}
+
+.delete {
+    width: 8%;
+    text-align: center !important;
+    background-color: #63b4f4 !important;
+    color: black !important;
+}
+
+.select-wrapper input.select-dropdown {
+    text-align-last: center;
+}
+
+.dropdown-content li > a, .m .dropdown-content li > span {
+    text-align: center;
+}
+
+/* address Table Section End*/
+/* address Section End*/
+

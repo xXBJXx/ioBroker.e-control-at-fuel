@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "e-control-at-fuel",
-        "version": "0.1.5-0",
+        "version": "0.1.6-beta.0",
         "news": {
+            "0.1.6-beta.0": {
+                "en": "config page style customized\nMost expensive dp removed\nCode Optimization\nDependency updates\nREADME revised and added Documentation link and LICENSE updated\ntest-and-release.yml updated\nremoved travis",
+                "de": "Konfigurationsseitenstil angepasst\nDas teuerste dp entfernt\nCode-Optimierung\nAbhängigkeitsaktualisierungen\nREADME überarbeitet und Dokumentationslink hinzugefügt und LIZENZ aktualisiert\ntest-and-release.yml aktualisiert\nTravis entfernt",
+                "ru": "настраиваемый стиль страницы конфигурации\nУдалено самое дорогое двойное проникновение\nОптимизация кода\nОбновления зависимостей\nREADME переработан, добавлена ссылка на документацию и обновлена ЛИЦЕНЗИЯ.\ntest-and-release.yml обновлен\nудален Трэвис",
+                "pt": "estilo de página de configuração personalizado\nDp mais caro removido\nOtimização de Código\nAtualizações de dependência\nREADME revisado e adicionado link de documentação e LICENÇA atualizada\ntest-and-release.yml atualizado\ntravis removido",
+                "nl": "config paginastijl aangepast\nDuurste dp verwijderd\nCode-optimalisatie\nAfhankelijkheid updates\nREADME herzien en toegevoegd Documentatielink en LICENTIE bijgewerkt\ntest-and-release.yml bijgewerkt\nverwijderd travis",
+                "fr": "style de page de configuration personnalisé\nLe DP le plus cher supprimé\nOptimisation du code\nMises à jour des dépendances\nLISEZMOI révisé et ajouté Lien vers la documentation et LICENCE mis à jour\ntest-and-release.yml mis à jour\ntravis supprimé",
+                "it": "stile della pagina di configurazione personalizzato\nIl dp più costoso rimosso\nOttimizzazione del codice\nAggiornamenti delle dipendenze\nREADME modificato e aggiunto Collegamento alla documentazione e LICENZA aggiornata\ntest-and-release.yml aggiornato\nrimosso travis",
+                "es": "estilo de página de configuración personalizado\nDp más caro eliminado\nOptimización de código\nActualizaciones de dependencia\nREADME revisado y agregado Enlace de documentación y LICENCIA actualizada\ntest-and-release.yml actualizado\neliminado travis",
+                "pl": "config dostosowany styl strony\nUsunięto najdroższe dp\nOptymalizacja kodu\nAktualizacje zależności\nREADME poprawione i dodane łącze Dokumentacja oraz zaktualizowana LICENCJA\nzaktualizowano test-and-release.yml\nusunięte travis",
+                "zh-cn": "配置页面样式自定义\n最昂贵的dp已删除\n代码优化\n依赖关系更新\n自述文件已修订并添加了文档链接，并更新了许可证\ntest-and-release.yml已更新\n删除travis"
+            },
             "0.1.5-0": {
                 "en": "add GitHub Actions (test and release) and dependabot auto merge\nDependency updates performed\nchange State create",
                 "de": "Fügen Sie GitHub-Aktionen (Test und Release) hinzu und führen Sie die automatische Zusammenführung von Dependabot durch\nAbhängigkeitsaktualisierungen durchgeführt\nStatus ändern erstellen",

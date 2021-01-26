@@ -52,7 +52,7 @@ is included. This allows Sentry to group errors and show how many unique users a
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
 
-### __WORK IN PROGRESS__
+### 0.1.6-beta.0 (2021-01-26)
 * (xXBJXx) config page style customized
 * (xXBJXx) Most expensive dp removed
 * (xXBJXx) Code Optimization

@@ -22,9 +22,6 @@ This adapter uses the service Sentry.io to automatically report exceptions and c
 More details see below!
 
 ## The adapter reads the fuel prices from E-Control.at:
-
-Auf der config Seite muss man nur den Intervall **(die kleinste einstellbare Zeit ist 10 min)** setzen und die Latitude und Longitude eintragen diese könnt ihr hier nach schauen
-**https://www.latlong.net/** dann wählt man nur noch aus welchem Sprit man will und fertig.
 ![config](admin/config.png)
 
 On the config page you only have to set the interval **(the smallest adjustable time is 10 min)** and enter the latitude and longitude which you can look up here
@@ -51,6 +48,8 @@ is included. This allows Sentry to group errors and show how many unique users a
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
+### __WORK IN PROGRESS__
+* (xXBJXx) fixed test-and-release.yml 
 
 ### 0.1.6-beta.0 (2021-01-26)
 * (xXBJXx) config page style customized

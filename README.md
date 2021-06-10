@@ -32,7 +32,7 @@ a folder is created e.g. **rosenheim_diesel** and in this folder the gas station
 depends on the gas stations, which transmit their prices it is created still 1 folder the most favorable gas stations,
 and a JSON table for all gas stations, which were created in the folder.
 
-A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/e-control-at-fuel/description.html)
+A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/e-control-at-fuel/01.description.html)
 
 ## What is Sentry.io and what is reported to the servers of that company?
 

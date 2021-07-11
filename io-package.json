@@ -1,8 +1,20 @@
 {
     "common": {
         "name": "e-control-at-fuel",
-        "version": "0.1.6-beta.1",
+        "version": "0.1.6-beta.2",
         "news": {
+            "0.1.6-beta.2": {
+                "en": "Adapter is no longer maintained please note the info!",
+                "de": "Adapter wird nicht mehr gepflegt bitte Info beachten!",
+                "ru": "Адаптер больше не обслуживается, обратите внимание на информацию!",
+                "pt": "O adaptador não é mais mantido, observe as informações!",
+                "nl": "Adapter wordt niet meer onderhouden let op de info!",
+                "fr": "L'adaptateur n'est plus entretenu s'il vous plaît noter l'info!",
+                "it": "L'adattatore non viene più mantenuto, si prega di notare le informazioni!",
+                "es": "El adaptador ya no se mantiene, ¡tenga en cuenta la información!",
+                "pl": "Adapter nie jest już obsługiwany, proszę zwrócić uwagę na informacje!",
+                "zh-cn": "适配器不再维护请注意信息！"
+            },
             "0.1.6-beta.1": {
                 "en": "fixed test-and-release.yml",
                 "de": "feste test-and-release.yml",

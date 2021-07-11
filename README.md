@@ -66,7 +66,7 @@ Sentry Reporting is used from js-controller 3.0.
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
 
-### __WORK IN PROGRESS__
+### 0.1.6-beta.2 (2021-07-11)
 * (xXBJXx) Adapter is no longer maintained please note the info!
 
 ### 0.1.6-beta.1 (2021-01-27)

@@ -12,14 +12,22 @@
 
 **Tests:** ![Test and Release](https://github.com/xXBJXx/ioBroker.e-control-at-fuel/workflows/Test%20and%20Release/badge.svg)
 
+
+# WARNING: This adapter is no longer maintained!
+Since there is still an adapter that does the same thing, I will stop development of this adapter.
+
+Link to the adapter [ioBroker.fuelpricemonitor](https://github.com/HGlab01/ioBroker.fuelpricemonitor) <br/>
+You can also find it in the iobroker adapter list since it is already in stable.
+
 ## E-Control-at-fuel
 
 ### Fuel prices for Austria
 
 [Forum Post](https://forum.iobroker.net/topic/33033/e-control-at-fuel-kraftstoffpreise-f%C3%BCr-%C3%B6sterreich)
 
-This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer. 
-More details see below!
+**This adapter uses the service Sentry.io to automatically report exceptions and code errors and new device schemas to me as the developer.
+More details see below! [Sentry](#sentry)**
+
 
 ## The adapter reads the fuel prices from E-Control.at:
 ![config](admin/config.png)
@@ -32,24 +40,37 @@ a folder is created e.g. **rosenheim_diesel** and in this folder the gas station
 depends on the gas stations, which transmit their prices it is created still 1 folder the most favorable gas stations,
 and a JSON table for all gas stations, which were created in the folder.
 
+### Adapter Documentation
 A detailed description can be found [Adapter Documentation](https://xxbjxx.github.io/language/en/e-control-at-fuel/01.description.html)
 
-## What is Sentry.io and what is reported to the servers of that company?
+## Sentry
+### What is Sentry.io and what is reported to the servers of that company?
 
-Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is implemented in this adapter.
+Sentry.io is a service for developers to get an overview about errors from their applications. And exactly this is
+implemented in this adapter.
 
-When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is submitted to Sentry. When you 
-allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any additional infos about you, email name or such) 
-is included. This allows Sentry to group errors and show how many unique users are affected by such an error. All of this helps me to provide error free adapters that basically never crashs.
+When the adapter crashes, or another Code error happens, this error message that also appears in the ioBroker log is
+submitted to Sentry. When you
+allowed iobroker GmbH to collect diagnostic data then also your installation ID (this is just a unique ID without any
+additional infos about you, email name or such)
+is included. This allows Sentry to group errors and show how many unique users are affected by such an error.
+All of this helps me to provide error free adapters that basically never crashs.
 
+For more details and information on how to disable error reporting, please refer to the
+[Sentry plugin documentation](https://github.com/ioBroker/plugin-sentry#plugin-sentry) <br>
+Sentry Reporting is used from js-controller 3.0.
 
 ## Changelog
 <!--
  Placeholder for the next version (at the beginning of the line):
  ### __WORK IN PROGRESS__ ( - falls nicht benötigt löschen sonst klammern entfernen und nach dem - dein text schreiben )
 -->
+
+### __WORK IN PROGRESS__
+* (xXBJXx) Adapter is no longer maintained please note the info!
+
 ### 0.1.6-beta.1 (2021-01-27)
-* (xXBJXx) fixed test-and-release.yml 
+* (xXBJXx) fixed bug test-and-release.yml 
 
 ### 0.1.6-beta.0 (2021-01-26)
 * (xXBJXx) config page style customized
